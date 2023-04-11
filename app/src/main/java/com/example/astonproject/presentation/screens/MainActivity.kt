@@ -1,6 +1,7 @@
 package com.example.astonproject.presentation.screens
 
 import android.os.Bundle
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.example.astonproject.R
@@ -12,26 +13,25 @@ class MainActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
 
         binding.contentLayout.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.characters -> {
                     replaceFragment(CharactersFragment())
-                    binding.toolBar.title = getString(R.string.Characters)
+                    binding.toolbar.title = getString(R.string.Characters)
                     true
                 }
                 R.id.location -> {
                     replaceFragment(LocationFragment())
-                    binding.toolBar.title = getString(R.string.location)
+                    binding.toolbar.title = getString(R.string.location)
                     true
                 }
                 R.id.episodes -> {
                     replaceFragment(EpisodesFragment())
-                    binding.toolBar.title = getString(R.string.episodes)
+                    binding.toolbar.title = getString(R.string.episodes)
                     true
                 }
                 else -> false
