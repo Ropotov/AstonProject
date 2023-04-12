@@ -10,52 +10,62 @@
         android:id="@+id/ivCharacterPhoto"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:contentDescription="@string/photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_foreground"
-        android:contentDescription="@string/photo" />
+        app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <TextView
         android:id="@+id/tvCharacterName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Rick"
-        android:textSize="24sp"
-        android:textStyle="bold"
         android:layout_margin="@dimen/margin_4"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/teal_700"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivCharacterPhoto" />
+        app:layout_constraintTop_toBottomOf="@+id/ivCharacterPhoto"
+        tools:text="Rick" />
 
     <TextView
         android:id="@+id/tvCharacterSpecies"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:layout_margin="@dimen/margin_4"
-        tools:text="Human"
+        android:layout_height="wrap_content"
+        android:textColor="@color/teal_700"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCharacterName" />
+        app:layout_constraintStart_toStartOf="@+id/tvCharacterName"
+        app:layout_constraintTop_toBottomOf="@+id/tvCharacterName"
+        tools:text="Human" />
 
     <TextView
         android:id="@+id/tvCharacterGender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:layout_margin="@dimen/margin_4"
-        tools:text="Male"
+        android:layout_height="wrap_content"
+        android:textColor="@color/teal_700"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCharacterSpecies" />
+        app:layout_constraintTop_toBottomOf="@+id/tvCharacterSpecies"
+        tools:text="Male" />
 
     <TextView
         android:id="@+id/tvCharacterStatus"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_4"
-        tools:text="Alive"
+        android:textColor="@color/teal_700"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCharacterGender" />
+        app:layout_constraintTop_toBottomOf="@+id/tvCharacterGender"
+        tools:text="Alive" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

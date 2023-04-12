@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/characterRecyclerView"
-    android:padding="@dimen/padding_16"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,5 +8,5 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
     app:spanCount="2"
-    tools:context=".presentation.screens.CharactersFragment"
+    tools:context=".presentation.screens.characterFragment.CharactersFragment"
     tools:listitem="@layout/character_item"/>

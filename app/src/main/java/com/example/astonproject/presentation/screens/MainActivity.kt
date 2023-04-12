@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.example.astonproject.R
 import com.example.astonproject.databinding.ActivityMainBinding
+import com.example.astonproject.presentation.screens.characterFragment.CharactersFragment
 
 class MainActivity : FragmentActivity() {
 
@@ -20,7 +21,7 @@ class MainActivity : FragmentActivity() {
         binding.contentLayout.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.characters -> {
-                    replaceFragment(CharactersFragment())
+                    replaceFragment(CharactersFragment.newInstance())
                     binding.toolbar.title = getString(R.string.Characters)
                     true
                 }

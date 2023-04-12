@@ -17,6 +17,7 @@
             android:background="@color/white"
             app:titleTextColor="@color/teal_700"
             app:title="@string/Characters"
+            app:menu="@menu/appbar_menu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
