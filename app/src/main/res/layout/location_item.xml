@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/ivCharacterPhoto"
+        android:id="@+id/ivLocationImage"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:contentDescription="@string/photo"
+        android:src="@drawable/location_60"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
-        android:id="@+id/tvCharacterName"
+        android:id="@+id/tvLocationName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_4"
@@ -28,44 +28,35 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivCharacterPhoto"
-        tools:text="Rick" />
+        app:layout_constraintTop_toBottomOf="@+id/ivLocationImage"
+        tools:text="City" />
 
     <TextView
-        android:id="@+id/tvCharacterSpecies"
+        android:id="@+id/tvLocationDimension"
         android:layout_width="match_parent"
-        android:layout_margin="@dimen/margin_4"
-        android:textSize="12sp"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_4"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="12sp"
         android:textColor="@color/teal_700"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvCharacterName"
-        app:layout_constraintTop_toBottomOf="@+id/tvCharacterName"
-        tools:text="Human" />
+        app:layout_constraintStart_toStartOf="@+id/tvLocationName"
+        app:layout_constraintTop_toBottomOf="@+id/tvLocationName"
+        tools:text="Earth" />
 
     <TextView
-        android:id="@+id/tvCharacterGender"
-        android:layout_width="match_parent"
-        android:layout_margin="@dimen/margin_4"
-        android:textSize="12sp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/teal_700"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCharacterSpecies"
-        tools:text="Male" />
-
-    <TextView
-        android:id="@+id/tvCharacterStatus"
+        android:id="@+id/tvLocationType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_4"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textSize="12sp"
         android:textColor="@color/teal_700"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCharacterGender"
-        tools:text="Alive" />
+        app:layout_constraintTop_toBottomOf="@+id/tvLocationDimension"
+        tools:text="City" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentActivity
 import com.example.astonproject.R
 import com.example.astonproject.databinding.ActivityMainBinding
 import com.example.astonproject.presentation.screens.characterFragment.CharactersFragment
+import com.example.astonproject.presentation.screens.episodeFragment.EpisodeFragment
+import com.example.astonproject.presentation.screens.locationFragment.LocationFragment
 
 class MainActivity : FragmentActivity() {
 
@@ -26,12 +28,12 @@ class MainActivity : FragmentActivity() {
                     true
                 }
                 R.id.location -> {
-                    replaceFragment(LocationFragment())
+                    replaceFragment(LocationFragment.newInstance())
                     binding.toolbar.title = getString(R.string.location)
                     true
                 }
                 R.id.episodes -> {
-                    replaceFragment(EpisodesFragment())
+                    replaceFragment(EpisodeFragment.newInstance())
                     binding.toolbar.title = getString(R.string.episodes)
                     true
                 }

@@ -1,6 +1,6 @@
 package com.example.astonproject.data.model.character
 
 data class CharacterDto(
-    var info: InfoDto,
-    var results: List<ResultDto>
+    var info: CharacterInfoDto?,
+    var results: List<CharacterResultDto>
 )

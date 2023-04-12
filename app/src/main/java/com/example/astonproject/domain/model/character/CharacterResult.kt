@@ -1,12 +1,12 @@
 package com.example.astonproject.domain.model.character
 
-data class Result(
+data class CharacterResult(
     var created: String,
     var episode: List<String>,
     var gender: String,
     var id: Int,
     var image: String,
-    var location: Location,
+    var location: CharacterLocation,
     var name: String,
     var species: String,
     var status: String,

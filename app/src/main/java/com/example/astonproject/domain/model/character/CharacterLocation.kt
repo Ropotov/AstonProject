@@ -1,6 +1,6 @@
 package com.example.astonproject.domain.model.character
 
-data class Location(
+data class CharacterLocation(
     var name: String,
     var url: String
 )

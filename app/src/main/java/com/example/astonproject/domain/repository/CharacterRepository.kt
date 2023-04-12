@@ -1,9 +1,9 @@
 package com.example.astonproject.domain.repository
 
 import com.example.astonproject.domain.model.character.Character
-import com.example.astonproject.domain.model.character.Result
+import com.example.astonproject.domain.model.character.CharacterResult
 
 interface CharacterRepository {
     suspend fun getCharacter(page: Int): Character
-    suspend fun getDetailCharacter(id: Int): Result
+    suspend fun getDetailCharacter(id: Int): CharacterResult
 }

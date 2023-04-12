@@ -6,10 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/ivCharacterPhoto"
+    <TextView
+        android:id="@+id/tvEpisodeNumber"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
+        android:textSize="40sp"
+        tools:text="70"
+        android:textColor="@color/teal_700"
+        android:gravity="center"
         android:contentDescription="@string/photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,7 +21,7 @@
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <TextView
-        android:id="@+id/tvCharacterName"
+        android:id="@+id/tvEpisodeName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_4"
@@ -28,44 +32,22 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivCharacterPhoto"
+        app:layout_constraintTop_toBottomOf="@+id/tvEpisodeNumber"
         tools:text="Rick" />
 
     <TextView
-        android:id="@+id/tvCharacterSpecies"
+        android:id="@+id/tvEpisodeDataAir"
         android:layout_width="match_parent"
         android:layout_margin="@dimen/margin_4"
         android:textSize="12sp"
         android:layout_height="wrap_content"
         android:textColor="@color/teal_700"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvCharacterName"
-        app:layout_constraintTop_toBottomOf="@+id/tvCharacterName"
+        app:layout_constraintStart_toStartOf="@+id/tvEpisodeName"
+        app:layout_constraintTop_toBottomOf="@+id/tvEpisodeName"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:text="Human" />
 
-    <TextView
-        android:id="@+id/tvCharacterGender"
-        android:layout_width="match_parent"
-        android:layout_margin="@dimen/margin_4"
-        android:textSize="12sp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/teal_700"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCharacterSpecies"
-        tools:text="Male" />
 
-    <TextView
-        android:id="@+id/tvCharacterStatus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_4"
-        android:textSize="12sp"
-        android:textColor="@color/teal_700"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCharacterGender"
-        tools:text="Alive" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

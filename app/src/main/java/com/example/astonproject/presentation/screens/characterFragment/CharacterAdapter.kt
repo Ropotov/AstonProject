@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import com.example.astonproject.databinding.CharacterItemBinding
-import com.example.astonproject.domain.model.character.Result
+import com.example.astonproject.domain.model.character.CharacterResult
 
-class CharacterAdapter : PagingDataAdapter<Result, CharacterViewHolder>(DiffUtilsCallback()) {
+class CharacterAdapter : PagingDataAdapter<CharacterResult, CharacterViewHolder>(CharacterDiffUtil()) {
 
-    var onCharacterClickListener: ((Result?) -> Unit)? = null
+    var onCharacterClickListener: ((CharacterResult?) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
         val binding =
