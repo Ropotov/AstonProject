@@ -1,19 +1,22 @@
 package com.example.astonproject.presentation.screens.characterFragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import com.example.astonproject.presentation.Navigator
 import com.example.astonproject.databinding.FragmentCharactersBinding
-import kotlinx.coroutines.delay
+import com.example.astonproject.presentation.screens.CharacterFilterFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -27,6 +30,23 @@ class CharactersFragment : Fragment() {
         CharacterAdapter()
     }
 
+    private var name = ""
+    private var status = ""
+    private var gender = ""
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setFragmentResultListener("requestKey") { _, bundle ->
+            name = bundle.getString("name") ?: ""
+            status = bundle.getString("status") ?: ""
+            gender = bundle.getString("gender") ?: ""
+            lifecycleScope.launch {
+                viewModel.load(name, status, gender)
+                viewModel.characterFlow.collectLatest(characterAdapter::submitData)
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,9 +58,16 @@ class CharactersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val navigator = requireActivity() as Navigator
+        binding.filterButton.setColorFilter(Color.WHITE)
         initRecyclerView()
         loadCharacters()
         swipeRefresh()
+
+        binding.filterButton.setOnClickListener {
+            navigator.replaceFragment(CharacterFilterFragment.newInstance(), "Filter")
+        }
+
     }
 
     private fun swipeRefresh() {
@@ -55,6 +82,7 @@ class CharactersFragment : Fragment() {
 
     private fun loadCharacters() {
         lifecycleScope.launch {
+            viewModel.load(name, status, gender)
             viewModel.characterFlow.collectLatest(characterAdapter::submitData)
         }
         characterAdapter.addLoadStateListener {

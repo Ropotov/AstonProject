@@ -7,4 +7,15 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="photo">photo</string>
     <string name="search">Search</string>
+    <string name="filterButton">filterButton</string>
+    <string name="alive">Alive</string>
+    <string name="dead">Dead</string>
+    <string name="unknown">unknown</string>
+    <string name="status">Status:</string>
+    <string name="gender">Gender:</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="genderless">Genderless</string>
+    <string name="species">Species:</string>
+    <string name="save">Save</string>
 </resources>

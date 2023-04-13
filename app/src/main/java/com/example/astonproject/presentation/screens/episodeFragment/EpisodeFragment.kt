@@ -84,5 +84,6 @@ class EpisodeFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() = EpisodeFragment()
+        const val TAG = "EpisodeFragment"
     }
 }

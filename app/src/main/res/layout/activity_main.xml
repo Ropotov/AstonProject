@@ -7,6 +7,7 @@
     tools:context=".presentation.screens.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -15,12 +16,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            app:titleTextColor="@color/teal_700"
-            app:title="@string/Characters"
-            app:menu="@menu/appbar_menu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/Characters"
+            app:titleTextColor="@color/teal_700" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

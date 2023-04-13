@@ -11,8 +11,18 @@ class CharacterRepositoryImpl : CharacterRepository {
     private val apiService = RetrofitInstance.Api
     private val mapper = CharacterMapper()
 
-    override suspend fun getCharacter(page: Int): Character {
-        val character = apiService.getCharacter(page)
+    override suspend fun getCharacter(
+        page: Int,
+        name: String,
+        status: String,
+        gender: String
+    ): Character {
+        val character = apiService.getCharacter(page, name, status, gender)
+        return mapper.mapCharacterDtoToCharacter(character)
+    }
+
+    override suspend fun getFilteredCharacter(name: String): Character {
+        val character = apiService.getFilteredCharacter(name)
         return mapper.mapCharacterDtoToCharacter(character)
     }
 

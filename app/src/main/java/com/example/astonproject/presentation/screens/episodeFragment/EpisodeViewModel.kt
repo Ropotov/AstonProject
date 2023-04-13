@@ -10,11 +10,12 @@ import com.example.astonproject.data.pagingSource.EpisodePagingSource
 import com.example.astonproject.domain.model.episode.EpisodeResult
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.stateIn
 
 class EpisodeViewModel : ViewModel() {
 
-    val episodeFlow: StateFlow<PagingData<EpisodeResult>> = Pager(PagingConfig(pageSize = 1)) {
+    var episodeFlow: StateFlow<PagingData<EpisodeResult>> = Pager(PagingConfig(pageSize = 1)){
         EpisodePagingSource()
     }.flow.cachedIn(viewModelScope).stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
 }

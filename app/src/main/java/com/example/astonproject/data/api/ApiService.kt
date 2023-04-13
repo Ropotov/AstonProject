@@ -13,7 +13,15 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("character/")
-    suspend fun getCharacter(@Query("page") page: Int): CharacterDto
+    suspend fun getCharacter(
+        @Query("page") page: Int,
+        @Query("name") name: String,
+        @Query("status") status: String,
+        @Query("gender") gender: String
+    ): CharacterDto
+
+    @GET("character/")
+    suspend fun getFilteredCharacter(@Query("name") name: String): CharacterDto
 
     @GET("character/{id}")
     suspend fun getDetailCharacter(@Path("id") id: Int): CharacterResultDto

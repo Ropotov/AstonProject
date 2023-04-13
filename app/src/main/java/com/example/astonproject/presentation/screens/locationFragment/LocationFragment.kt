@@ -85,5 +85,6 @@ class LocationFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() = LocationFragment()
+        const val TAG = "LocationFragment"
     }
 }
