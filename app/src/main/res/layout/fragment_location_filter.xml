@@ -24,19 +24,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="name"
-            android:hint="@string/search"
             android:drawableStart="@drawable/search_24"
+            android:hint="@string/search"
             android:inputType="textPersonName" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvStatus"
+        android:id="@+id/tvType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_8"
-        android:text="@string/status"
+        android:text="@string/type"
         android:textColor="@color/teal_700"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,87 +44,102 @@
         app:layout_constraintTop_toBottomOf="@+id/searchLayout" />
 
     <com.google.android.material.chip.ChipGroup
-        android:id="@+id/statusButton"
+        android:id="@+id/typeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvStatus"
+        app:layout_constraintTop_toBottomOf="@+id/tvType"
         app:singleSelection="true">
 
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/alive"
+            android:id="@+id/cluster"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/alive" />
+            android:text="@string/cluster" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/dead"
+            android:id="@+id/planet"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dead" />
+            android:text="@string/planet" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/unknownStatus"
+            android:id="@+id/dream"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/unknown" />
+            android:text="@string/dream" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/spaceStation"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/spaceStation" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dimension"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dimension" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/game"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/game" />
 
     </com.google.android.material.chip.ChipGroup>
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvGender"
+        android:id="@+id/tvDimension"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_8"
-        android:text="@string/gender"
+        android:text="@string/_dimension"
         android:textColor="@color/teal_700"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusButton" />
+        app:layout_constraintTop_toBottomOf="@+id/typeButton" />
 
     <com.google.android.material.chip.ChipGroup
-        android:id="@+id/genderButton"
+        android:id="@+id/dimensionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvGender"
+        app:layout_constraintTop_toBottomOf="@+id/tvDimension"
         app:singleSelection="true">
 
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/male"
+            android:id="@+id/replacementDimension"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/male" />
+            android:text="@string/replacementDimension" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/female"
+            android:id="@+id/dimensionC137"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/female" />
+            android:text="@string/dimensionC137" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/unknownGender"
+            android:id="@+id/unknownDimetsion"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/unknown" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/genderless"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/genderless" />
 
     </com.google.android.material.chip.ChipGroup>
 

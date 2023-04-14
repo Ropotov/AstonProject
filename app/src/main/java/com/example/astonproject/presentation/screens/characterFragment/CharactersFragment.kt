@@ -14,8 +14,8 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.example.astonproject.presentation.Navigator
 import com.example.astonproject.databinding.FragmentCharactersBinding
+import com.example.astonproject.presentation.Navigator
 import com.example.astonproject.presentation.screens.CharacterFilterFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -30,16 +30,16 @@ class CharactersFragment : Fragment() {
         CharacterAdapter()
     }
 
-    private var name = ""
-    private var status = ""
-    private var gender = ""
+    private var name = EMPTY_STRING
+    private var status = EMPTY_STRING
+    private var gender = EMPTY_STRING
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setFragmentResultListener("requestKey") { _, bundle ->
-            name = bundle.getString("name") ?: ""
-            status = bundle.getString("status") ?: ""
-            gender = bundle.getString("gender") ?: ""
+            name = bundle.getString("name") ?: EMPTY_STRING
+            status = bundle.getString("status") ?: EMPTY_STRING
+            gender = bundle.getString("gender") ?: EMPTY_STRING
             lifecycleScope.launch {
                 viewModel.load(name, status, gender)
                 viewModel.characterFlow.collectLatest(characterAdapter::submitData)
@@ -65,7 +65,10 @@ class CharactersFragment : Fragment() {
         swipeRefresh()
 
         binding.filterButton.setOnClickListener {
-            navigator.replaceFragment(CharacterFilterFragment.newInstance(), "Filter")
+            navigator.replaceFragment(
+                CharacterFilterFragment.newInstance(name, status, gender),
+                CharacterFilterFragment.TAG
+            )
         }
 
     }
@@ -82,7 +85,7 @@ class CharactersFragment : Fragment() {
 
     private fun loadCharacters() {
         lifecycleScope.launch {
-            viewModel.load(name, status, gender)
+            viewModel.load(name, gender, status)
             viewModel.characterFlow.collectLatest(characterAdapter::submitData)
         }
         characterAdapter.addLoadStateListener {
@@ -111,6 +114,9 @@ class CharactersFragment : Fragment() {
     }
 
     companion object {
+        const val TAG = "Character"
+        private const val EMPTY_STRING = ""
+
         @JvmStatic
         fun newInstance() = CharactersFragment()
     }

@@ -8,14 +8,19 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.astonproject.data.pagingSource.EpisodePagingSource
 import com.example.astonproject.domain.model.episode.EpisodeResult
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.stateIn
 
 class EpisodeViewModel : ViewModel() {
 
-    var episodeFlow: StateFlow<PagingData<EpisodeResult>> = Pager(PagingConfig(pageSize = 1)){
-        EpisodePagingSource()
-    }.flow.cachedIn(viewModelScope).stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
+    var episodeFlow: Flow<PagingData<EpisodeResult>> = emptyFlow()
+
+    fun load(name: String, episode: String) {
+        episodeFlow = Pager(PagingConfig(pageSize = 1)) {
+            EpisodePagingSource(name, episode)
+        }.flow.cachedIn(viewModelScope)
+            .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
+    }
 }

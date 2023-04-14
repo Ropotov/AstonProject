@@ -5,7 +5,11 @@ import androidx.paging.PagingState
 import com.example.astonproject.data.repository.LocationRepositoryImpl
 import com.example.astonproject.domain.model.location.LocationResult
 
-class LocationPagingSource : PagingSource<Int, LocationResult>() {
+class LocationPagingSource(
+    private val name: String,
+    private val type: String,
+    private val dimension: String,
+) : PagingSource<Int, LocationResult>() {
     override fun getRefreshKey(state: PagingState<Int, LocationResult>): Int? {
         return null
     }
@@ -14,9 +18,8 @@ class LocationPagingSource : PagingSource<Int, LocationResult>() {
         return try {
             val repository = LocationRepositoryImpl()
             val page = params.key ?: 1
-            val data = (repository.getLocation(page)).results
             val resultDate = arrayListOf<LocationResult>()
-            resultDate.addAll(data)
+            resultDate.addAll((repository.getLocation(page, name, type, dimension)).results)
 
             LoadResult.Page(
                 data = resultDate,

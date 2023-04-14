@@ -18,4 +18,20 @@
     <string name="genderless">Genderless</string>
     <string name="species">Species:</string>
     <string name="save">Save</string>
+    <string name="season_5">Season 5</string>
+    <string name="season_4">Season 4</string>
+    <string name="season_3">Season 3</string>
+    <string name="season_2">Season 2</string>
+    <string name="season_1">Season 1</string>
+    <string name="season">Season:</string>
+    <string name="type">Type:</string>
+    <string name="cluster">Cluster</string>
+    <string name="planet">Planet</string>
+    <string name="dream">Dream</string>
+    <string name="spaceStation">Space Station</string>
+    <string name="dimension">Dimension</string>
+    <string name="_dimension">Dimension:</string>
+    <string name="game">Game</string>
+    <string name="replacementDimension">Replacement Dimension</string>
+    <string name="dimensionC137">Dimension C-137</string>
 </resources>

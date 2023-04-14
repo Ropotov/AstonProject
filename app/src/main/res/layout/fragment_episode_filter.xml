@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_8"
-        android:text="@string/status"
+        android:text="@string/season"
         android:textColor="@color/teal_700"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/searchLayout" />
 
     <com.google.android.material.chip.ChipGroup
-        android:id="@+id/statusButton"
+        android:id="@+id/episodeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -52,81 +52,42 @@
         app:layout_constraintTop_toBottomOf="@+id/tvStatus"
         app:singleSelection="true">
 
-
         <com.google.android.material.chip.Chip
-            android:id="@+id/alive"
+            android:id="@+id/season1"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/alive" />
+            android:text="@string/season_1" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/dead"
+            android:id="@+id/season2"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dead" />
+            android:text="@string/season_2" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/unknownStatus"
+            android:id="@+id/season3"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/unknown" />
+            android:text="@string/season_3" />
+        <com.google.android.material.chip.Chip
+            android:id="@+id/season4"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/season_4" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/season5"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/season_5" />
 
     </com.google.android.material.chip.ChipGroup>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvGender"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_8"
-        android:text="@string/gender"
-        android:textColor="@color/teal_700"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusButton" />
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/genderButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvGender"
-        app:singleSelection="true">
-
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/male"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/male" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/female"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/female" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/unknownGender"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/unknown" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/genderless"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/genderless" />
-
-    </com.google.android.material.chip.ChipGroup>
 
     <Button
         android:id="@+id/save"

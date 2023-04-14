@@ -12,8 +12,8 @@ class LocationRepositoryImpl : LocationRepository {
     private val apiService = RetrofitInstance.Api
     private val mapper = LocationMapper()
 
-    override suspend fun getLocation(page: Int): Location {
-        val location = apiService.getLocation(page)
+    override suspend fun getLocation(page: Int, name: String, type: String, dimension: String): Location {
+        val location = apiService.getLocation(page, name,type, dimension)
         return mapper.mapLocationDtoToLocation(location)
     }
 

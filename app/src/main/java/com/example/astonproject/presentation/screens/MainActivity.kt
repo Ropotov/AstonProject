@@ -40,7 +40,7 @@ class MainActivity : FragmentActivity(), Navigator {
             }
         }
         binding.toolbar.setNavigationOnClickListener {
-            popUpToBackStack("Character")
+            popUpToBackStack(CharactersFragment.TAG)
         }
     }
 

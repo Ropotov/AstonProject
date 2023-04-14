@@ -5,7 +5,10 @@ import androidx.paging.PagingState
 import com.example.astonproject.data.repository.EpisodeRepositoryImpl
 import com.example.astonproject.domain.model.episode.EpisodeResult
 
-class EpisodePagingSource : PagingSource<Int, EpisodeResult>() {
+class EpisodePagingSource(
+    private val name: String,
+    private val episode: String
+) : PagingSource<Int, EpisodeResult>() {
     override fun getRefreshKey(state: PagingState<Int, EpisodeResult>): Int? {
         return null
     }
@@ -14,9 +17,8 @@ class EpisodePagingSource : PagingSource<Int, EpisodeResult>() {
         return try {
             val repository = EpisodeRepositoryImpl()
             val page = params.key ?: 1
-            val data = (repository.getEpisode(page)).results
             val resultDate = arrayListOf<EpisodeResult>()
-            resultDate.addAll(data)
+            resultDate.addAll((repository.getEpisode(page, name, episode)).results)
 
             LoadResult.Page(
                 data = resultDate,

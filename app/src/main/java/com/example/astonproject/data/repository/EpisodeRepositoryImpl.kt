@@ -12,9 +12,9 @@ class EpisodeRepositoryImpl : EpisodeRepository {
     private val apiService = RetrofitInstance.Api
     private val mapper = EpisodeMapper()
 
-    override suspend fun getEpisode(page: Int): Episode {
-        val episode = apiService.getEpisode(page)
-        return mapper.mapEpisodeDtoToEpisode(episode)
+    override suspend fun getEpisode(page: Int, name: String, episode: String): Episode {
+        val episodes = apiService.getEpisode(page, name, episode)
+        return mapper.mapEpisodeDtoToEpisode(episodes)
     }
 
     override suspend fun getDetailEpisode(id: Int): EpisodeResult {

@@ -1,11 +1,13 @@
 package com.example.astonproject.presentation.screens.episodeFragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -13,6 +15,10 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.astonproject.databinding.FragmentEpisodesBinding
+import com.example.astonproject.presentation.Navigator
+import com.example.astonproject.presentation.screens.CharacterFilterFragment
+import com.example.astonproject.presentation.screens.EpisodeFilterFragment
+import com.example.astonproject.presentation.screens.characterFragment.CharactersFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -25,6 +31,20 @@ class EpisodeFragment : Fragment() {
         EpisodeAdapter()
     }
 
+    private var name = EMPTY_STRING
+    private var episode = EMPTY_STRING
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setFragmentResultListener("requestKey") { _, bundle ->
+            name = bundle.getString("name") ?: EMPTY_STRING
+            episode = bundle.getString("episode") ?: EMPTY_STRING
+            lifecycleScope.launch {
+                viewModel.load(name, episode)
+                viewModel.episodeFlow.collectLatest(episodeAdapter::submitData)
+            }
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,9 +56,18 @@ class EpisodeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val navigator = requireActivity() as Navigator
+        binding.filterButton.setColorFilter(Color.WHITE)
         initRecyclerView()
         loadCharacters()
         swipeRefresh()
+
+        binding.filterButton.setOnClickListener {
+            navigator.replaceFragment(
+                EpisodeFilterFragment.newInstance(name, episode),
+                EpisodeFilterFragment.TAG
+            )
+        }
     }
 
     private fun swipeRefresh() {
@@ -53,6 +82,7 @@ class EpisodeFragment : Fragment() {
 
     private fun loadCharacters() {
         lifecycleScope.launch {
+            viewModel.load(name, episode)
             viewModel.episodeFlow.collectLatest(episodeAdapter::submitData)
         }
 
@@ -82,8 +112,9 @@ class EpisodeFragment : Fragment() {
     }
 
     companion object {
+        const val TAG = "Episode"
+        private const val EMPTY_STRING = ""
         @JvmStatic
         fun newInstance() = EpisodeFragment()
-        const val TAG = "EpisodeFragment"
     }
 }

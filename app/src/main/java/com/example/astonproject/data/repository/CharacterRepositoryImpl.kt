@@ -21,11 +21,6 @@ class CharacterRepositoryImpl : CharacterRepository {
         return mapper.mapCharacterDtoToCharacter(character)
     }
 
-    override suspend fun getFilteredCharacter(name: String): Character {
-        val character = apiService.getFilteredCharacter(name)
-        return mapper.mapCharacterDtoToCharacter(character)
-    }
-
     override suspend fun getDetailCharacter(id: Int): CharacterResult {
         val detailCharacter = apiService.getDetailCharacter(id)
         return mapper.mapResultsDtoToResults(detailCharacter)

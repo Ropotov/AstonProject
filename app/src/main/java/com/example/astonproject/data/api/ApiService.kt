@@ -20,20 +20,26 @@ interface ApiService {
         @Query("gender") gender: String
     ): CharacterDto
 
-    @GET("character/")
-    suspend fun getFilteredCharacter(@Query("name") name: String): CharacterDto
-
     @GET("character/{id}")
     suspend fun getDetailCharacter(@Path("id") id: Int): CharacterResultDto
 
     @GET("episode/")
-    suspend fun getEpisode(@Query("page") page: Int): EpisodeDto
+    suspend fun getEpisode(
+        @Query("page") page: Int,
+        @Query("name") name: String,
+        @Query("episode") episode: String
+    ): EpisodeDto
 
     @GET("episode/{id}")
     suspend fun getDetailEpisode(@Path("id") id: Int): EpisodeResultDto
 
     @GET("location/")
-    suspend fun getLocation(@Query("page") page: Int): LocationDto
+    suspend fun getLocation(
+        @Query("page") page: Int,
+        @Query("name") name: String,
+        @Query("type") type: String,
+        @Query("dimension") dimension: String
+    ): LocationDto
 
     @GET("location/{id}")
     suspend fun getDetailLocation(@Path("id") id: Int): LocationResultDto
