@@ -8,9 +8,10 @@ import com.example.astonproject.domain.model.character.Character
 import com.example.astonproject.domain.model.character.CharacterInfo
 import com.example.astonproject.domain.model.character.CharacterLocation
 import com.example.astonproject.domain.model.character.CharacterResult
+import javax.inject.Inject
 
 
-class CharacterMapper {
+class CharacterMapper @Inject constructor() {
 
     private fun mapInfoDtoToInfo(infoDto: CharacterInfoDto?) = CharacterInfo(
         count = infoDto?.count ?: EMPTY_NUMBER,

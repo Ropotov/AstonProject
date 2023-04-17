@@ -1,5 +1,6 @@
 package com.example.astonproject.presentation.screens.characterFragment
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,11 +15,14 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import com.example.astonproject.App
 import com.example.astonproject.databinding.FragmentCharactersBinding
+import com.example.astonproject.di.ViewModelFactory
 import com.example.astonproject.presentation.Navigator
 import com.example.astonproject.presentation.screens.CharacterFilterFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 class CharactersFragment : Fragment() {
@@ -33,6 +37,18 @@ class CharactersFragment : Fragment() {
     private var name = EMPTY_STRING
     private var status = EMPTY_STRING
     private var gender = EMPTY_STRING
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val component by lazy {
+        (requireActivity().application as App).component
+    }
+
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +68,7 @@ class CharactersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCharactersBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this)[CharacterViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[CharacterViewModel::class.java]
         return binding.root
     }
 

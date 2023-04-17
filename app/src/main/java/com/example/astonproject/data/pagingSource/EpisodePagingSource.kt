@@ -2,10 +2,12 @@ package com.example.astonproject.data.pagingSource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.astonproject.data.repository.EpisodeRepositoryImpl
 import com.example.astonproject.domain.model.episode.EpisodeResult
+import com.example.astonproject.domain.repository.EpisodeRepository
+import javax.inject.Inject
 
-class EpisodePagingSource(
+class EpisodePagingSource @Inject constructor(
+    private val repository: EpisodeRepository,
     private val name: String,
     private val episode: String
 ) : PagingSource<Int, EpisodeResult>() {
@@ -15,7 +17,6 @@ class EpisodePagingSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, EpisodeResult> {
         return try {
-            val repository = EpisodeRepositoryImpl()
             val page = params.key ?: 1
             val resultDate = arrayListOf<EpisodeResult>()
             resultDate.addAll((repository.getEpisode(page, name, episode)).results)

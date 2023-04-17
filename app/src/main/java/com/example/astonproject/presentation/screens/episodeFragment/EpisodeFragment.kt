@@ -1,5 +1,6 @@
 package com.example.astonproject.presentation.screens.episodeFragment
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,13 +15,14 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import com.example.astonproject.App
 import com.example.astonproject.databinding.FragmentEpisodesBinding
+import com.example.astonproject.di.ViewModelFactory
 import com.example.astonproject.presentation.Navigator
-import com.example.astonproject.presentation.screens.CharacterFilterFragment
 import com.example.astonproject.presentation.screens.EpisodeFilterFragment
-import com.example.astonproject.presentation.screens.characterFragment.CharactersFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class EpisodeFragment : Fragment() {
 
@@ -34,6 +36,18 @@ class EpisodeFragment : Fragment() {
     private var name = EMPTY_STRING
     private var episode = EMPTY_STRING
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val component by lazy {
+        (requireActivity().application as App).component
+    }
+
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setFragmentResultListener("requestKey") { _, bundle ->
@@ -45,12 +59,13 @@ class EpisodeFragment : Fragment() {
             }
         }
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentEpisodesBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this)[EpisodeViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[EpisodeViewModel::class.java]
         return binding.root
     }
 
@@ -114,6 +129,7 @@ class EpisodeFragment : Fragment() {
     companion object {
         const val TAG = "Episode"
         private const val EMPTY_STRING = ""
+
         @JvmStatic
         fun newInstance() = EpisodeFragment()
     }

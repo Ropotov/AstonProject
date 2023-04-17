@@ -1,6 +1,7 @@
 package com.example.astonproject.di
 
 import android.app.Application
+import com.example.astonproject.App
 import com.example.astonproject.presentation.screens.CharacterFilterFragment
 import com.example.astonproject.presentation.screens.EpisodeFilterFragment
 import com.example.astonproject.presentation.screens.LocationFilterFragment
@@ -11,7 +12,7 @@ import com.example.astonproject.presentation.screens.locationFragment.LocationFr
 import dagger.BindsInstance
 import dagger.Component
 
-@Component(modules = [DataModule::class])
+@Component(modules = [DataModule::class, ViewModelModule::class])
 interface AppComponent {
 
     fun inject(activity: MainActivity)
@@ -21,6 +22,7 @@ interface AppComponent {
     fun inject(fragment: LocationFragment)
     fun inject(fragment: EpisodeFragment)
     fun inject(fragment: CharactersFragment)
+    fun inject(application: App)
 
     @Component.Factory
     interface Factory {

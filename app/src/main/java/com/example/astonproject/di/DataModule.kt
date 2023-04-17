@@ -1,7 +1,9 @@
 package com.example.astonproject.di
 
+import androidx.paging.PagingSource
 import com.example.astonproject.data.api.ApiService
 import com.example.astonproject.data.api.RetrofitInstance
+import com.example.astonproject.data.pagingSource.CharacterPagingSource
 import com.example.astonproject.data.repository.CharacterRepositoryImpl
 import com.example.astonproject.data.repository.EpisodeRepositoryImpl
 import com.example.astonproject.data.repository.LocationRepositoryImpl
@@ -11,6 +13,7 @@ import com.example.astonproject.domain.repository.LocationRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoMap
 
 @Module
 interface DataModule {

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.example.astonproject.App
 import com.example.astonproject.presentation.Navigator
 import com.example.astonproject.R
 import com.example.astonproject.databinding.ActivityMainBinding
@@ -16,7 +17,12 @@ class MainActivity : FragmentActivity(), Navigator {
 
     private lateinit var binding: ActivityMainBinding
 
+    private val component by lazy {
+        (application as App).component
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        component.inject(this)
         super.onCreate(savedInstanceState)
         installSplashScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)

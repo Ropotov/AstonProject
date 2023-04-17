@@ -6,8 +6,9 @@ import com.example.astonproject.data.model.location.LocationResultDto
 import com.example.astonproject.domain.model.location.Location
 import com.example.astonproject.domain.model.location.LocationInfo
 import com.example.astonproject.domain.model.location.LocationResult
+import javax.inject.Inject
 
-class LocationMapper {
+class LocationMapper @Inject constructor() {
 
     private fun mapInfoDtoToInfo(infoDto: LocationInfoDto?) = LocationInfo(
         count = infoDto?.count ?: EMPTY_NUMBER,

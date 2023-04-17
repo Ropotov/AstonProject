@@ -6,8 +6,9 @@ import com.example.astonproject.data.model.episode.EpisodeResultDto
 import com.example.astonproject.domain.model.episode.Episode
 import com.example.astonproject.domain.model.episode.EpisodeInfo
 import com.example.astonproject.domain.model.episode.EpisodeResult
+import javax.inject.Inject
 
-class EpisodeMapper {
+class EpisodeMapper @Inject constructor(){
 
     private fun mapInfoDtoToInfo(infoDto: EpisodeInfoDto?) = EpisodeInfo(
         count = infoDto?.count ?: EMPTY_NUMBER,

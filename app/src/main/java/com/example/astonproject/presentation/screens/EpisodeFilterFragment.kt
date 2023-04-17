@@ -1,5 +1,6 @@
 package com.example.astonproject.presentation.screens
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
+import com.example.astonproject.App
 import com.example.astonproject.databinding.FragmentCharacterFilterBinding
 import com.example.astonproject.databinding.FragmentEpisodeFilterBinding
 import com.example.astonproject.presentation.Navigator
@@ -17,6 +19,14 @@ class EpisodeFilterFragment : Fragment() {
     private var name = EMPTY_STRING
     private var episode = EMPTY_STRING
 
+    private val component by lazy {
+        (requireActivity().application as App).component
+    }
+
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
