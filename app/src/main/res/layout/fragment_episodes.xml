@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
-            tools:context=".presentation.screens.characterFragment.CharactersFragment"
+            tools:context=".character.presentation.CharactersFragment"
             tools:listitem="@layout/episode_item" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
