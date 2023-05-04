@@ -6,9 +6,9 @@ import android.net.ConnectivityManager
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.astonproject.character.data.database.CharacterDao
 import com.example.astonproject.character.domain.model.CharacterResult
 import com.example.astonproject.character.domain.repository.CharacterRepository
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class CharacterPagingSource @Inject constructor(
@@ -27,7 +27,7 @@ class CharacterPagingSource @Inject constructor(
             val page = params.key ?: 1
             val resultDate = arrayListOf<CharacterResult>()
             if (hasConnected(application.applicationContext)) {
-                resultDate.addAll((repository.getCharacter(page, name, status, gender)).results)
+                resultDate.addAll(repository.getCharacter(page, name, status, gender).results)
             } else {
                 val list = repository.getLisCharacterResultInDb()
                 resultDate.addAll(list)
@@ -41,6 +41,13 @@ class CharacterPagingSource @Inject constructor(
         } catch (e: Exception) {
             Log.d("TAG", e.message.toString())
             LoadResult.Error(e)
+        } catch (e: HttpException) {
+            Log.d("TAG", e.message.toString())
+            LoadResult.Page(
+                data = emptyList(),
+                prevKey = null,
+                nextKey = null
+            )
         }
     }
 

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:padding="@dimen/padding_8"
-    tools:context=".character.presentation.CharacterFilterFragment">
+    tools:context=".character.presentation.filter.CharacterFilterFragment">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/searchLayout"

@@ -7,9 +7,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.example.astonproject.R
 import com.example.astonproject.databinding.ActivityMainBinding
-import com.example.astonproject.character.presentation.CharactersFragment
-import com.example.astonproject.episode.presentation.EpisodeFragment
-import com.example.astonproject.location.presentation.LocationFragment
+import com.example.astonproject.character.presentation.character.CharactersFragment
+import com.example.astonproject.episode.presentation.episode.EpisodeFragment
+import com.example.astonproject.location.presentation.location.LocationFragment
 
 class MainActivity : FragmentActivity(), Navigator {
 
@@ -44,7 +44,7 @@ class MainActivity : FragmentActivity(), Navigator {
             }
         }
         binding.toolbar.setNavigationOnClickListener {
-            popUpToBackStack(CharactersFragment.TAG)
+            supportFragmentManager.popBackStack()
         }
     }
 

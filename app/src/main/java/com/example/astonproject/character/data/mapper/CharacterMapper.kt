@@ -112,8 +112,6 @@ class CharacterMapper @Inject constructor() {
             url = originDto.url
         )
     }
-
-
     companion object {
         private const val EMPTY_STRING = ""
         private const val EMPTY_NUMBER = 0

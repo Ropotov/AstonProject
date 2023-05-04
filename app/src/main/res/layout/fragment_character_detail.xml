@@ -1,114 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
-    <androidx.core.widget.NestedScrollView
+    <ImageView
+        android:id="@+id/ivPhoto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="300dp"
+        tools:srcCompat="@tools:sample/avatars" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+    <TextView
+        android:id="@+id/tvCharacterName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_4"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/teal_700"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:text="Rick" />
 
-            <ImageView
-                android:id="@+id/ivPhoto"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                tools:srcCompat="@tools:sample/avatars" />
+    <TextView
+        android:id="@+id/tvCharacterSpecies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_4"
+        android:textColor="@color/teal_700"
+        android:textSize="16sp"
+        tools:text="Human" />
 
-            <TextView
-                android:id="@+id/tvCharacterName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_4"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/teal_700"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                tools:text="Rick" />
+    <TextView
+        android:id="@+id/tvCharacterGender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_4"
+        android:textColor="@color/teal_700"
+        android:textSize="16sp"
+        tools:text="Male" />
 
-            <TextView
-                android:id="@+id/tvCharacterSpecies"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_4"
-                android:textColor="@color/teal_700"
-                android:textSize="12sp"
-                tools:text="Human" />
+    <TextView
+        android:id="@+id/tvCharacterStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_4"
+        android:textColor="@color/teal_700"
+        android:textSize="16sp"
+        tools:text="Alive" />
 
-            <TextView
-                android:id="@+id/tvCharacterGender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_4"
-                android:textColor="@color/teal_700"
-                android:textSize="12sp"
-                tools:text="Male" />
+    <TextView
+        android:id="@+id/tvCharacterCreated"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_4"
+        android:textColor="@color/teal_700"
+        android:textSize="16sp"
+        tools:text="Human" />
 
-            <TextView
-                android:id="@+id/tvCharacterStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_4"
-                android:textColor="@color/teal_700"
-                android:textSize="12sp"
-                tools:text="Alive" />
+    <TextView
+        android:id="@+id/tvCharacterLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_4"
+        android:textColor="@color/teal_700"
+        android:textSize="16sp"
+        tools:text="Human" />
 
-            <TextView
-                android:id="@+id/tvCharacterCreated"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_4"
-                android:textColor="@color/teal_700"
-                android:textSize="12sp"
-                tools:text="Human" />
+    <TextView
+        android:id="@+id/tvCharacterOrigin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_4"
+        android:textColor="@color/teal_700"
+        android:textSize="16sp"
+        tools:text="Human" />
 
-            <TextView
-                android:id="@+id/tvCharacterLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_4"
-                android:textColor="@color/teal_700"
-                android:textSize="12sp"
-                tools:text="Human" />
+    <TextView
+        android:id="@+id/tvCharacterEpisodesTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_4"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/teal_700"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tvCharacterOrigin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_4"
-                android:textColor="@color/teal_700"
-                android:textSize="12sp"
-                tools:text="Human" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvEpisodes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_4"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/character_episode_item" />
 
-            <TextView
-                android:id="@+id/tvCharacterEpisodesTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_4"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/teal_700"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/margin_4"
-                android:id="@+id/rvEpisodes"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:orientation="vertical"
-                tools:listitem="@layout/character_episode_item"
-                tools:itemCount="10"/>
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-</FrameLayout>
+</LinearLayout>

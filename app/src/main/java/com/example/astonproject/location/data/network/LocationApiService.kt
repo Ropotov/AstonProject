@@ -20,9 +20,6 @@ interface LocationApiService {
         @Query("dimension") dimension: String
     ): LocationDto
 
-    @GET("location/{id}")
-    suspend fun getDetailLocation(@Path("id") id: Int): LocationResultDto
-
     companion object {
         object LocationRetrofit {
 

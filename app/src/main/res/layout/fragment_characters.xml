@@ -5,6 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/motion_24"
+        android:visibility="gone"/>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
@@ -20,7 +27,7 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
-            tools:context=".character.presentation.CharactersFragment"
+            tools:context=".character.presentation.character.CharactersFragment"
             tools:listitem="@layout/character_item" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

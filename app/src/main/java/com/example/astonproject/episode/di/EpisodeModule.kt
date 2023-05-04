@@ -6,7 +6,8 @@ import com.example.astonproject.episode.data.network.EpisodeApiService
 import com.example.astonproject.episode.data.network.EpisodeApiService.Companion.EpisodeRetrofit
 import com.example.astonproject.episode.data.repository.EpisodeRepositoryImpl
 import com.example.astonproject.episode.domain.reposiitory.EpisodeRepository
-import com.example.astonproject.episode.presentation.EpisodeViewModel
+import com.example.astonproject.episode.presentation.detail.EpisodeDetailViewModel
+import com.example.astonproject.episode.presentation.episode.EpisodeViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -22,6 +23,11 @@ interface EpisodeModule {
     @IntoMap
     @ViewModelKey(EpisodeViewModel::class)
     fun bindEpisodeViewModel(viewModel: EpisodeViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(EpisodeDetailViewModel::class)
+    fun bindEpisodeDetailViewModel(viewModel: EpisodeDetailViewModel): ViewModel
 
     companion object {
         @Provides

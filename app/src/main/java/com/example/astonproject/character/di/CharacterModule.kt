@@ -11,8 +11,8 @@ import com.example.astonproject.character.data.network.CharacterApiServiceRX
 import com.example.astonproject.character.data.network.CharacterApiServiceRX.Companion.CharacterRetrofitRX
 import com.example.astonproject.character.data.repository.CharacterRepositoryImpl
 import com.example.astonproject.character.domain.repository.CharacterRepository
-import com.example.astonproject.character.presentation.CharacterDetailViewModel
-import com.example.astonproject.character.presentation.CharacterViewModel
+import com.example.astonproject.character.presentation.detail.CharacterDetailViewModel
+import com.example.astonproject.character.presentation.character.CharacterViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

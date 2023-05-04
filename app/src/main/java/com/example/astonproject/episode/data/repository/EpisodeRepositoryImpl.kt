@@ -1,6 +1,7 @@
 package com.example.astonproject.episode.data.repository
 
 
+import com.example.astonproject.character.domain.model.CharacterResult
 import com.example.astonproject.episode.data.mapper.EpisodeMapper
 import com.example.astonproject.episode.data.network.EpisodeApiService
 import com.example.astonproject.episode.domain.model.Episode
@@ -21,5 +22,9 @@ class EpisodeRepositoryImpl @Inject constructor(
     override suspend fun getDetailEpisode(id: Int): EpisodeResult {
         val detailEpisode = apiService.getDetailEpisode(id)
         return mapper.mapResultsDtoToResults(detailEpisode)
+    }
+
+    override suspend fun getListCharacter(id: String): List<CharacterResult> {
+        return apiService.getListCharacter(id)
     }
 }

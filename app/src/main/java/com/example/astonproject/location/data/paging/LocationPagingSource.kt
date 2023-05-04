@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.astonproject.location.domain.model.LocationResult
 import com.example.astonproject.location.domain.repository.LocationRepository
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class LocationPagingSource @Inject constructor(
@@ -29,6 +30,8 @@ class LocationPagingSource @Inject constructor(
             )
         } catch (e: java.lang.Exception) {
             LoadResult.Error(e)
+        } catch (e: HttpException){
+           LoadResult.Error(e)
         }
     }
 }

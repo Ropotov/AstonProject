@@ -8,6 +8,8 @@ import com.example.astonproject.character.domain.model.Character
 import com.example.astonproject.character.domain.model.CharacterDetail
 import com.example.astonproject.character.domain.model.CharacterResult
 import com.example.astonproject.character.domain.repository.CharacterRepository
+import com.example.astonproject.episode.domain.model.EpisodeResult
+import com.example.astonproject.location.domain.model.LocationResult
 import io.reactivex.Single
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,5 +52,17 @@ class CharacterRepositoryImpl @Inject constructor(
     override fun getDetailCharacter(id: Int): Single<CharacterDetail> {
         return apiServiceRx.getDetailCharacter(id).map { mapper.mapDetailDtoToDetail(it) }
 
+    }
+
+    override fun getDetailEpisodeList(string: String): Single<List<EpisodeResult>> {
+        return apiServiceRx.getDetailEpisodeList(string)
+    }
+
+    override fun getDetailEpisode(id: Int): Single<EpisodeResult> {
+        return apiServiceRx.getDetailEpisode(id)
+    }
+
+    override fun getDetailLocation(id: Int): Single<LocationResult> {
+        return apiServiceRx.getDetailLocation(id)
     }
 }
