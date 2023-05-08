@@ -2,19 +2,19 @@ package com.example.astonproject.app.di
 
 import android.app.Application
 import com.example.astonproject.app.App
+import com.example.astonproject.app.MainActivity
 import com.example.astonproject.character.di.CharacterModule
+import com.example.astonproject.character.presentation.character.CharactersFragment
+import com.example.astonproject.character.presentation.detail.CharacterDetailFragment
+import com.example.astonproject.character.presentation.filter.CharacterFilterFragment
 import com.example.astonproject.episode.di.EpisodeModule
-import com.example.astonproject.episode.presentation.filter.EpisodeFilterFragment
+import com.example.astonproject.episode.presentation.detail.EpisodeDetailFragment
 import com.example.astonproject.episode.presentation.episode.EpisodeFragment
+import com.example.astonproject.episode.presentation.filter.EpisodeFilterFragment
 import com.example.astonproject.location.di.LocationModule
+import com.example.astonproject.location.presentation.detail.LocationDetailFragment
 import com.example.astonproject.location.presentation.filter.LocationFilterFragment
 import com.example.astonproject.location.presentation.location.LocationFragment
-import com.example.astonproject.character.presentation.filter.CharacterFilterFragment
-import com.example.astonproject.character.presentation.character.CharactersFragment
-import com.example.astonproject.app.MainActivity
-import com.example.astonproject.character.presentation.detail.CharacterDetailFragment
-import com.example.astonproject.episode.presentation.detail.EpisodeDetailFragment
-import com.example.astonproject.location.presentation.detail.LocationDetailFragment
 import dagger.BindsInstance
 import dagger.Component
 

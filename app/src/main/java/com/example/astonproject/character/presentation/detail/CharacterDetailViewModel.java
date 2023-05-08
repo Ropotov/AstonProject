@@ -6,7 +6,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.astonproject.character.domain.model.CharacterDetail;
-import com.example.astonproject.character.domain.repository.CharacterRepository;
+import com.example.astonproject.character.domain.useCases.GetDetailCharacterUseCase;
+import com.example.astonproject.character.domain.useCases.GetListDetailEpisodeUseCase;
 import com.example.astonproject.episode.domain.model.EpisodeResult;
 
 import java.util.List;
@@ -19,12 +20,15 @@ import io.reactivex.schedulers.Schedulers;
 
 public class CharacterDetailViewModel extends ViewModel {
 
-    CharacterRepository repository;
+    GetDetailCharacterUseCase detailCharacterUseCase;
+    GetListDetailEpisodeUseCase listDetailEpisodeUseCase;
 
     @Inject
-    public CharacterDetailViewModel(CharacterRepository repository){
-        this.repository = repository;
-    };
+    public CharacterDetailViewModel(GetDetailCharacterUseCase detailCharacterUseCase,
+                                    GetListDetailEpisodeUseCase listDetailEpisodeUseCase) {
+        this.detailCharacterUseCase = detailCharacterUseCase;
+        this.listDetailEpisodeUseCase = listDetailEpisodeUseCase;
+    }
 
     MutableLiveData<CharacterDetail> characterDetail = new MutableLiveData<>();
 
@@ -32,7 +36,7 @@ public class CharacterDetailViewModel extends ViewModel {
 
     void load(int id) {
         try {
-            repository.getDetailCharacter(id).subscribeOn(Schedulers.io())
+            detailCharacterUseCase.getDetailCharacter(id).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new DisposableSingleObserver<CharacterDetail>() {
                         @Override
@@ -49,9 +53,10 @@ public class CharacterDetailViewModel extends ViewModel {
             Log.d("TAG", e.getMessage());
         }
     }
+
     void loadListEpisodes(String string) {
         try {
-            repository.getDetailEpisodeList(string).subscribeOn(Schedulers.io())
+            listDetailEpisodeUseCase.getListEpisodes(string).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new DisposableSingleObserver<List<EpisodeResult>>() {
                         @Override
@@ -65,7 +70,7 @@ public class CharacterDetailViewModel extends ViewModel {
                         }
                     });
 
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.d("TAG", e.getMessage());
 
         }

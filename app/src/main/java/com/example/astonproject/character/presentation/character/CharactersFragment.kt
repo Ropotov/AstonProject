@@ -2,7 +2,6 @@ package com.example.astonproject.character.presentation.character
 
 import android.content.Context
 import android.graphics.Color
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,13 +12,14 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.astonproject.app.App
+import com.example.astonproject.app.CustomizeAppBarTitle
 import com.example.astonproject.app.Navigator
 import com.example.astonproject.app.di.ViewModelFactory
+import com.example.astonproject.character.domain.model.CharacterFilter
 import com.example.astonproject.character.presentation.character.adapter.CharacterAdapter
 import com.example.astonproject.character.presentation.detail.CharacterDetailFragment
 import com.example.astonproject.character.presentation.filter.CharacterFilterFragment
@@ -28,8 +28,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
-class CharactersFragment : Fragment() {
+class CharactersFragment : Fragment(), CustomizeAppBarTitle {
 
     private lateinit var binding: FragmentCharactersBinding
     private lateinit var recyclerView: RecyclerView
@@ -37,10 +36,9 @@ class CharactersFragment : Fragment() {
     private val characterAdapter by lazy {
         CharacterAdapter()
     }
-
-    private var name = EMPTY_STRING
-    private var status = EMPTY_STRING
-    private var gender = EMPTY_STRING
+    private var filter = CharacterFilter(
+        EMPTY_STRING, EMPTY_STRING, EMPTY_STRING, EMPTY_STRING
+    )
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -57,16 +55,12 @@ class CharactersFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setFragmentResultListener("requestKey") { _, bundle ->
-            name = bundle.getString("name") ?: EMPTY_STRING
-            status = bundle.getString("status") ?: EMPTY_STRING
-            gender = bundle.getString("gender") ?: EMPTY_STRING
-            loadCharacters()
+            filter = bundle.getParcelable("filter")!!
         }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentCharactersBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this, viewModelFactory)[CharacterViewModel::class.java]
@@ -80,19 +74,22 @@ class CharactersFragment : Fragment() {
         initRecyclerView()
         loadCharacters()
         swipeRefresh()
+        addListeners(navigator)
+    }
 
+    private fun addListeners(navigator: Navigator) {
         binding.filterButton.setOnClickListener {
             navigator.replaceFragment(
-                CharacterFilterFragment.newInstance(name, status, gender),
-                CharacterFilterFragment.TAG
+                CharacterFilterFragment.newInstance(filter),
             )
         }
 
         characterAdapter.onCharacterClickListener = {
-            navigator.replaceFragment(
-                CharacterDetailFragment.newInstance(it?.id!!.toInt()),
-                CharacterDetailFragment.TAG
-            )
+            if (it != null) {
+                navigator.replaceFragment(
+                    CharacterDetailFragment.newInstance(it.id)
+                )
+            }
         }
     }
 
@@ -108,10 +105,30 @@ class CharactersFragment : Fragment() {
 
     private fun loadCharacters() {
         lifecycleScope.launch {
-            viewModel.load(name, status, gender)
-            viewModel.characterFlow.collectLatest {
-                characterAdapter.submitData(it)
+            viewModel.load(filter.name, filter.status, filter.gender)
+            viewModel.characterFlow.collectLatest(characterAdapter::submitData)
+        }
+        lifecycleScope.launch {
+            viewModel.loadCharacterCount(filter.name, filter.status, filter.gender)
+            viewModel.character.observe(viewLifecycleOwner) {
+                if (it.count == 0) {
+                    errorVisibility(true)
+                } else {
+                    errorVisibility(false)
+                }
             }
+        }
+    }
+
+    private fun errorVisibility(boolean: Boolean) {
+        if (boolean) {
+            binding.characterRecyclerView.visibility = View.GONE
+            binding.errorImage.visibility = View.VISIBLE
+            binding.errorText.visibility = View.VISIBLE
+        } else {
+            binding.errorImage.visibility = View.GONE
+            binding.errorText.visibility = View.GONE
+            binding.characterRecyclerView.visibility = View.VISIBLE
         }
     }
 
@@ -136,6 +153,10 @@ class CharactersFragment : Fragment() {
             binding.characterRecyclerView.isVisible = it.refresh != LoadState.Loading
             binding.progressBar.isVisible = it.refresh == LoadState.Loading
         }
+    }
+
+    override fun customTitle(): String {
+        return TAG
     }
 
     companion object {

@@ -27,7 +27,7 @@ class EpisodeMapper @Inject constructor(){
         url = resultDto?.url ?: EMPTY_STRING
     )
 
-    private fun mapListResultsDtoToListResults(list: List<EpisodeResultDto>) = list.map {
+    fun mapListResultsDtoToListResults(list: List<EpisodeResultDto>) = list.map {
         mapResultsDtoToResults(it)
     }
 

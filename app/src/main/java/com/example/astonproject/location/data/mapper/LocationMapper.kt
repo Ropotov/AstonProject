@@ -1,11 +1,11 @@
 package com.example.astonproject.location.data.mapper
 
-import com.example.astonproject.location.model.LocationDto
-import com.example.astonproject.location.model.LocationInfoDto
-import com.example.astonproject.location.model.LocationResultDto
 import com.example.astonproject.location.domain.model.Location
 import com.example.astonproject.location.domain.model.LocationInfo
 import com.example.astonproject.location.domain.model.LocationResult
+import com.example.astonproject.location.model.LocationDto
+import com.example.astonproject.location.model.LocationInfoDto
+import com.example.astonproject.location.model.LocationResultDto
 import com.example.astonproject.location.presentation.model.LocationUiModel
 import javax.inject.Inject
 
@@ -28,7 +28,7 @@ class LocationMapper @Inject constructor() {
         url = resultDto?.url ?: EMPTY_STRING
     )
 
-    fun mapListResultsDtoToListResults(list: List<LocationResultDto>) = list.map {
+    private fun mapListResultsDtoToListResults(list: List<LocationResultDto>) = list.map {
         mapResultsDtoToResults(it)
     }
 
@@ -36,16 +36,6 @@ class LocationMapper @Inject constructor() {
         info = mapInfoDtoToInfo(locationDto.info),
         results = mapListResultsDtoToListResults(locationDto.results)
     )
-
-    fun mapLocationResultToLocationUi(locationResult: LocationResult): LocationUiModel =
-        LocationUiModel(
-            dimension = locationResult.dimension,
-            id = locationResult.id,
-            name = locationResult.name,
-            type = locationResult.type,
-            url = locationResult.url
-        )
-
 
     companion object {
         private const val EMPTY_STRING = ""

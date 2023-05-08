@@ -12,16 +12,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.astonproject.app.App
+import com.example.astonproject.app.CustomizeAppBarTitle
+import com.example.astonproject.app.Navigator
 import com.example.astonproject.app.di.ViewModelFactory
+import com.example.astonproject.character.presentation.detail.CharacterDetailFragment
 import com.example.astonproject.databinding.FragmentEpisodeDetailBinding
 import com.example.astonproject.episode.domain.model.EpisodeResult
 import com.example.astonproject.episode.presentation.detail.adapter.EpisodeDetailAdapter
 import javax.inject.Inject
 
-class EpisodeDetailFragment : Fragment() {
+class EpisodeDetailFragment : Fragment(), CustomizeAppBarTitle {
     private lateinit var binding: FragmentEpisodeDetailBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: EpisodeDetailViewModel
+    private lateinit var navigator: Navigator
     private var id = 0
     private var characters = ""
 
@@ -50,6 +54,7 @@ class EpisodeDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentEpisodeDetailBinding.inflate(inflater, container, false)
+        navigator = requireActivity() as Navigator
         viewModel = ViewModelProvider(this, viewModelFactory)[EpisodeDetailViewModel::class.java]
         return binding.root
     }
@@ -57,17 +62,27 @@ class EpisodeDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rvInit()
+        loadContent()
+        addClickListener()
+    }
+
+    private fun addClickListener() {
+        adapter.onCharacterClickListener = {
+            navigator.replaceFragment(CharacterDetailFragment.newInstance(it?.id!!))
+        }
+    }
+
+    private fun loadContent() {
         viewModel.load(id)
-        viewModel.episodeDetail.observe(viewLifecycleOwner){
+        viewModel.episodeDetail.observe(viewLifecycleOwner) {
             content(it)
             toListStringNumber(it.characters)
             viewModel.loadListCharacter(characters)
-            viewModel.listCharacters.observe(viewLifecycleOwner){ list ->
+            viewModel.listCharacters.observe(viewLifecycleOwner) { list ->
                 adapter.submitList(list)
             }
         }
     }
-
 
     private fun rvInit() {
         recyclerView = binding.rvEpisodes
@@ -85,7 +100,7 @@ class EpisodeDetailFragment : Fragment() {
         binding.tvEpisode.text = "Episode: " + episodeResult.episode
         binding.tvEpisodeAirDate.text = "Air date: " + episodeResult.air_date
         binding.tvEpisodeName.text = episodeResult.name
-        binding.tvEpisodeCreated.text = "Created: " + episodeResult.created
+        binding.tvEpisodeCreated.text = "Created: " + episodeResult.created.substring(0, 10)
         binding.tvCharactersTitle.text = "Characters: "
     }
 
@@ -94,6 +109,10 @@ class EpisodeDetailFragment : Fragment() {
             val newString = i.substring(i.lastIndexOf('/') + 1)
             characters += "$newString,"
         }
+    }
+
+    override fun customTitle(): String {
+        return TAG
     }
 
     companion object {

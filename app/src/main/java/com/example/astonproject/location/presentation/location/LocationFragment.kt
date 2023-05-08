@@ -16,9 +16,11 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.astonproject.app.App
+import com.example.astonproject.app.CustomizeAppBarTitle
 import com.example.astonproject.app.Navigator
 import com.example.astonproject.app.di.ViewModelFactory
 import com.example.astonproject.databinding.FragmentLocationBinding
+import com.example.astonproject.location.domain.model.LocationFilter
 import com.example.astonproject.location.presentation.detail.LocationDetailFragment
 import com.example.astonproject.location.presentation.filter.LocationFilterFragment
 import com.example.astonproject.location.presentation.location.adapter.LocationAdapter
@@ -26,7 +28,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class LocationFragment : Fragment() {
+class LocationFragment : Fragment(), CustomizeAppBarTitle {
 
     private lateinit var binding: FragmentLocationBinding
     private lateinit var recyclerView: RecyclerView
@@ -34,10 +36,9 @@ class LocationFragment : Fragment() {
     private val locationAdapter by lazy {
         LocationAdapter()
     }
-
-    private var name = EMPTY_STRING
-    private var type = EMPTY_STRING
-    private var dimension = EMPTY_STRING
+    private var filter = LocationFilter(
+        EMPTY_STRING, EMPTY_STRING, EMPTY_STRING
+    )
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -54,16 +55,12 @@ class LocationFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setFragmentResultListener("requestKey") { _, bundle ->
-            name = bundle.getString("name") ?: EMPTY_STRING
-            type = bundle.getString("type") ?: EMPTY_STRING
-            dimension = bundle.getString("dimension") ?: EMPTY_STRING
-            loadLocation()
+            filter = bundle.getParcelable("filter")!!
         }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentLocationBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this, viewModelFactory)[LocationViewModel::class.java]
@@ -77,22 +74,19 @@ class LocationFragment : Fragment() {
         initRecyclerView()
         loadLocation()
         swipeRefresh()
+        addListeners(navigator)
+    }
 
+    private fun addListeners(navigator: Navigator) {
         binding.filterButton.setOnClickListener {
             navigator.replaceFragment(
-                LocationFilterFragment.newInstance(
-                    name,
-                    type,
-                    dimension
-                ),
-                LocationFilterFragment.TAG
+                LocationFilterFragment.newInstance(filter)
             )
         }
         locationAdapter.onCharacterClickListener = {
             if (it != null) {
                 navigator.replaceFragment(
-                    LocationDetailFragment.newInstance(it.id),
-                    LocationDetailFragment.TAG
+                    LocationDetailFragment.newInstance(it.id)
                 )
             }
         }
@@ -110,13 +104,31 @@ class LocationFragment : Fragment() {
 
     private fun loadLocation() {
         lifecycleScope.launch {
-            viewModel.load(name, type, dimension)
+            viewModel.load(filter.name, filter.type, filter.dimension)
             viewModel.locationFlow.collectLatest(locationAdapter::submitData)
-        }
 
-        locationAdapter.addLoadStateListener {
-            binding.locationRecyclerView.isVisible = it.refresh != LoadState.Loading
-            binding.progressBar.isVisible = it.refresh == LoadState.Loading
+        }
+        lifecycleScope.launch {
+            viewModel.loadCount(filter.name, filter.type, filter.dimension)
+            viewModel.locationCount.observe(viewLifecycleOwner) {
+                if (it.count == 0) {
+                    errorVisibility(true)
+                } else {
+                    errorVisibility(false)
+                }
+            }
+        }
+    }
+
+    private fun errorVisibility(boolean: Boolean) {
+        if (boolean) {
+            binding.locationRecyclerView.visibility = View.GONE
+            binding.errorImage.visibility = View.VISIBLE
+            binding.errorText.visibility = View.VISIBLE
+        } else {
+            binding.errorImage.visibility = View.GONE
+            binding.errorText.visibility = View.GONE
+            binding.locationRecyclerView.visibility = View.VISIBLE
         }
     }
 
@@ -126,24 +138,30 @@ class LocationFragment : Fragment() {
             adapter = locationAdapter
             addItemDecoration(
                 DividerItemDecoration(
-                    binding.locationRecyclerView.context,
-                    DividerItemDecoration.VERTICAL
+                    binding.locationRecyclerView.context, DividerItemDecoration.VERTICAL
                 )
             )
             addItemDecoration(
                 DividerItemDecoration(
-                    binding.locationRecyclerView.context,
-                    DividerItemDecoration.HORIZONTAL
+                    binding.locationRecyclerView.context, DividerItemDecoration.HORIZONTAL
                 )
             )
         }
+        locationAdapter.addLoadStateListener {
+            binding.locationRecyclerView.isVisible = it.refresh != LoadState.Loading
+            binding.progressBar.isVisible = it.refresh == LoadState.Loading
+        }
     }
 
+    override fun customTitle(): String {
+        return TAG
+    }
 
     companion object {
-        @JvmStatic
-        fun newInstance() = LocationFragment()
         const val TAG = "Location"
         private const val EMPTY_STRING = ""
+
+        @JvmStatic
+        fun newInstance() = LocationFragment()
     }
 }

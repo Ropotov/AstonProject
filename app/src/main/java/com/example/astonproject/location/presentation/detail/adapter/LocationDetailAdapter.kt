@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.astonproject.character.domain.model.CharacterResult
 import com.example.astonproject.databinding.CharacterEpisodeItemBinding
-import com.example.astonproject.episode.presentation.detail.adapter.LocationDetailDiffUtil
 
-class LocationDetailAdapter : ListAdapter<CharacterResult, LocationDetailViewHolder>(LocationDetailDiffUtil()) {
+class LocationDetailAdapter :
+    ListAdapter<CharacterResult, LocationDetailViewHolder>(LocationDetailDiffUtil()) {
 
-    val onCharacterClickListener: ((CharacterResult?) -> Unit)? = null
+    var onCharacterClickListener: OnCharacterClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationDetailViewHolder {
         val binding = CharacterEpisodeItemBinding.inflate(
@@ -24,8 +24,12 @@ class LocationDetailAdapter : ListAdapter<CharacterResult, LocationDetailViewHol
     override fun onBindViewHolder(holder: LocationDetailViewHolder, position: Int) {
         val characterPosition = getItem(position)
         holder.bind(characterPosition)
-        holder.binding.root.setOnClickListener {
-            onCharacterClickListener?.invoke(characterPosition)
+        holder.itemView.setOnClickListener {
+            onCharacterClickListener?.onCharacterClick(characterPosition)
         }
+    }
+
+    interface OnCharacterClickListener {
+        fun onCharacterClick(result: CharacterResult)
     }
 }

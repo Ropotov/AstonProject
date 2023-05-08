@@ -9,7 +9,7 @@ import com.example.astonproject.episode.domain.model.EpisodeResult
 
 class DetailAdapter : ListAdapter<EpisodeResult, DetailViewHolder>(DetailDiffUtil()) {
 
-    val onEpisodeClickListener: ((EpisodeResult?) -> Unit)? = null
+    var onEpisodeClickListener: OnEpisodeClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailViewHolder {
         val binding = CharacterEpisodeItemBinding.inflate(
@@ -23,8 +23,12 @@ class DetailAdapter : ListAdapter<EpisodeResult, DetailViewHolder>(DetailDiffUti
     override fun onBindViewHolder(holder: DetailViewHolder, position: Int) {
         val episodePosition = getItem(position)
         holder.bind(episodePosition)
-        holder.binding.root.setOnClickListener {
-            onEpisodeClickListener?.invoke(episodePosition)
+        holder.itemView.setOnClickListener {
+            onEpisodeClickListener?.onEpisodeClick(episodePosition)
         }
+    }
+
+    interface OnEpisodeClickListener {
+        fun onEpisodeClick(result: EpisodeResult)
     }
 }

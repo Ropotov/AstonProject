@@ -6,19 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import com.example.astonproject.app.App
-import com.example.astonproject.databinding.FragmentLocationFilterBinding
+import com.example.astonproject.app.CustomizeAppBarTitle
 import com.example.astonproject.app.Navigator
-import com.example.astonproject.location.presentation.location.LocationFragment
+import com.example.astonproject.databinding.FragmentLocationFilterBinding
+import com.example.astonproject.location.domain.model.LocationFilter
 
-class LocationFilterFragment : Fragment() {
+class LocationFilterFragment : Fragment(), CustomizeAppBarTitle {
 
     private lateinit var binding: FragmentLocationFilterBinding
-    private var name = EMPTY_STRING
-    private var type = EMPTY_STRING
-    private var dimension = EMPTY_STRING
+    private var filter: LocationFilter? = null
 
     private val component by lazy {
         (requireActivity().application as App).component
@@ -39,9 +39,7 @@ class LocationFilterFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        name = arguments?.getString("name") ?: EMPTY_STRING
-        type = arguments?.getString("type") ?: EMPTY_STRING
-        dimension = arguments?.getString("dimension") ?: EMPTY_STRING
+        filter = arguments?.getParcelable("filter")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,13 +47,13 @@ class LocationFilterFragment : Fragment() {
         val navigator = requireActivity() as Navigator
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                navigator.popUpToBackStack(LocationFragment.TAG)
+                navigator.popUpToBackStack()
             }
         }
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, callback)
 
-        if (name.isNotEmpty()) binding.search.setText(name)
-        when (type) {
+        if (filter?.name?.isNotEmpty() == true) binding.search.setText(filter?.name)
+        when (filter?.type) {
             "Planet" -> binding.planet.isChecked = true
             "Cluster" -> binding.cluster.isChecked = true
             "Dream" -> binding.dream.isChecked = true
@@ -64,49 +62,48 @@ class LocationFilterFragment : Fragment() {
             "Game" -> binding.game.isChecked = true
         }
 
-        when (dimension) {
+        when (filter?.dimension) {
             "Replacement Dimension" -> binding.replacementDimension.isChecked = true
             "Dimension C-137" -> binding.dimensionC137.isChecked = true
             "unknown" -> binding.unknownDimetsion.isChecked = true
         }
 
         binding.save.setOnClickListener {
-            name = EMPTY_STRING
-            type = EMPTY_STRING
-            dimension = EMPTY_STRING
-            name = binding.search.text.toString()
-            if (binding.planet.isChecked) type = "Planet"
-            if (binding.cluster.isChecked) type = "Cluster"
-            if (binding.spaceStation.isChecked) type = "Space Station"
-            if (binding.game.isChecked) type = "Game"
-            if (binding.dream.isChecked) type = "Dream"
-            if (binding.dimension.isChecked) type = "Dimension"
-            if (binding.replacementDimension.isChecked) dimension = "Replacement Dimension"
-            if (binding.dimensionC137.isChecked) dimension = "Dimension C-137"
-            if (binding.unknownDimetsion.isChecked) dimension = "unknown"
+            filter?.name = EMPTY_STRING
+            filter?.type = EMPTY_STRING
+            filter?.dimension = EMPTY_STRING
+            filter?.name = binding.search.text.toString()
+            if (binding.planet.isChecked) filter?.type = "Planet"
+            if (binding.cluster.isChecked) filter?.type = "Cluster"
+            if (binding.spaceStation.isChecked) filter?.type = "Space Station"
+            if (binding.game.isChecked) filter?.type = "Game"
+            if (binding.dream.isChecked) filter?.type = "Dream"
+            if (binding.dimension.isChecked) filter?.type = "Dimension"
+            if (binding.replacementDimension.isChecked) filter?.dimension = "Replacement Dimension"
+            if (binding.dimensionC137.isChecked) filter?.dimension = "Dimension C-137"
+            if (binding.unknownDimetsion.isChecked) filter?.dimension = "unknown"
 
             setFragmentResult(
                 "requestKey", Bundle().apply {
-                    putString("name", name)
-                    putString("type", type)
-                    putString("dimension", dimension)
+                    putParcelable("filter", filter)
                 }
             )
-            navigator.popUpToBackStack(LocationFragment.TAG)
+            navigator.popUpToBackStack()
         }
+    }
+
+    override fun customTitle(): String {
+        return TAG
     }
 
     companion object {
         const val TAG = "Filter"
         private const val EMPTY_STRING = ""
+
         @JvmStatic
-        fun newInstance(name: String, type: String, dimension: String): LocationFilterFragment {
+        fun newInstance(filter: LocationFilter): LocationFilterFragment {
             return LocationFilterFragment().apply {
-                arguments = Bundle().apply {
-                    putString("name", name)
-                    putString("type", type)
-                    putString("dimension", dimension)
-                }
+                arguments = bundleOf("filter" to filter)
             }
         }
     }

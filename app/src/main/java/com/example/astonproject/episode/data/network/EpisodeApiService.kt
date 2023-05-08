@@ -3,7 +3,6 @@ package com.example.astonproject.episode.data.network
 import com.example.astonproject.character.domain.model.CharacterResult
 import com.example.astonproject.episode.data.model.EpisodeDto
 import com.example.astonproject.episode.data.model.EpisodeResultDto
-import io.reactivex.Single
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

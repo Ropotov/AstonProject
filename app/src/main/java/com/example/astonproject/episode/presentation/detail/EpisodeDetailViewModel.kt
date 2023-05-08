@@ -14,13 +14,13 @@ class EpisodeDetailViewModel @Inject constructor(var repository: EpisodeReposito
     var episodeDetail = MutableLiveData<EpisodeResult>()
     var listCharacters = MutableLiveData<List<CharacterResult>>()
     fun load(id: Int) {
-        viewModelScope.launch() {
+        viewModelScope.launch {
             episodeDetail.value = repository.getDetailEpisode(id)
         }
     }
 
     fun loadListCharacter(id: String) {
-        viewModelScope.launch() {
+        viewModelScope.launch {
             listCharacters.value = repository.getListCharacter(id)
         }
     }

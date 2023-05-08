@@ -1,6 +1,5 @@
 package com.example.astonproject.character.data.mapper
 
-import com.example.astonproject.character.data.database.model.CharacterLocationDb
 import com.example.astonproject.character.data.database.model.CharacterResultDbModel
 import com.example.astonproject.character.data.model.character.*
 import com.example.astonproject.character.domain.model.*
@@ -21,7 +20,7 @@ class CharacterMapper @Inject constructor() {
         url = locationDto?.url ?: EMPTY_STRING
     )
 
-    fun mapResultsDtoToResults(resultDto: CharacterResultDto?) = CharacterResult(
+    private fun mapResultsDtoToResults(resultDto: CharacterResultDto?) = CharacterResult(
         created = resultDto?.created ?: EMPTY_STRING,
         episode = resultDto?.episode ?: emptyList(),
         gender = resultDto?.gender ?: EMPTY_STRING,
@@ -43,16 +42,6 @@ class CharacterMapper @Inject constructor() {
     fun mapCharacterDtoToCharacter(characterDto: CharacterDto) = Character(
         info = mapInfoDtoToInfo(characterDto.info),
         results = mapListResultsDtoToListResults(characterDto.results)
-    )
-
-    private fun mapLocationDtoToLocationDb(location: CharacterLocation) = CharacterLocationDb(
-        name = location.name ?: EMPTY_STRING,
-        url = location.url ?: EMPTY_STRING
-    )
-
-    private fun mapLocationDbToLocation(location: CharacterLocationDb) = CharacterLocation(
-        name = location.name ?: EMPTY_STRING,
-        url = location.url ?: EMPTY_STRING
     )
 
     private fun mapCharacterResultToCharacterResultDbModel(characterResult: CharacterResult): CharacterResultDbModel {
@@ -112,6 +101,7 @@ class CharacterMapper @Inject constructor() {
             url = originDto.url
         )
     }
+
     companion object {
         private const val EMPTY_STRING = ""
         private const val EMPTY_NUMBER = 0

@@ -4,8 +4,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.astonproject.character.domain.model.CharacterResult;
-import com.example.astonproject.episode.domain.model.EpisodeResult;
-import com.example.astonproject.episode.domain.reposiitory.EpisodeRepository;
 import com.example.astonproject.location.domain.model.LocationResult;
 import com.example.astonproject.location.domain.repository.LocationRepository;
 
@@ -44,7 +42,8 @@ public class LocationDetailViewModel extends ViewModel {
                     }
                 });
     }
-    void loadListCharacter(String id){
+
+    void loadListCharacter(String id) {
         repository.getListCharacter(id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
                 new DisposableSingleObserver<List<CharacterResult>>() {
                     @Override

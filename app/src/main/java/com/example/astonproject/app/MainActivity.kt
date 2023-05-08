@@ -5,9 +5,10 @@ import android.view.View
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import com.example.astonproject.R
-import com.example.astonproject.databinding.ActivityMainBinding
 import com.example.astonproject.character.presentation.character.CharactersFragment
+import com.example.astonproject.databinding.ActivityMainBinding
 import com.example.astonproject.episode.presentation.episode.EpisodeFragment
 import com.example.astonproject.location.presentation.location.LocationFragment
 
@@ -15,8 +16,20 @@ class MainActivity : FragmentActivity(), Navigator {
 
     private lateinit var binding: ActivityMainBinding
 
+    private val currentFragment: Fragment
+        get() = supportFragmentManager.findFragmentById(R.id.container)!!
+
     private val component by lazy {
         (application as App).component
+    }
+
+    private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
+        override fun onFragmentViewCreated(
+            fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?
+        ) {
+            super.onFragmentViewCreated(fm, f, v, savedInstanceState)
+            updateUi()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,81 +38,54 @@ class MainActivity : FragmentActivity(), Navigator {
         installSplashScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        visibilityBottomNavigation("Character")
+        supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, false)
         binding.contentLayout.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.characters -> {
-                    addFragment(CharactersFragment.newInstance(), "Character")
+                    replaceFragment(CharactersFragment.newInstance())
                     true
                 }
                 R.id.location -> {
-                    addFragment(LocationFragment.newInstance(), "Location")
+                    replaceFragment(LocationFragment.newInstance())
                     true
                 }
                 R.id.episodes -> {
-                    addFragment(EpisodeFragment.newInstance(), "Episode")
+                    replaceFragment(EpisodeFragment.newInstance())
                     true
                 }
                 else -> false
             }
         }
         binding.toolbar.setNavigationOnClickListener {
-            supportFragmentManager.popBackStack()
+            popUpToBackStack()
         }
     }
 
-    private fun visibilityBottomNavigation(fragmentTag: String) {
-        when (fragmentTag) {
-            "Character" -> {
-                binding.toolbar.title = fragmentTag
-                binding.contentLayout.bottomNavigation.visibility = View.VISIBLE
-                binding.toolbar.navigationIcon = null
-            }
-            "Location" -> {
-                binding.toolbar.title = fragmentTag
-                binding.contentLayout.bottomNavigation.visibility = View.VISIBLE
-                binding.toolbar.navigationIcon = null
-            }
-            "Episode" -> {
-                binding.toolbar.title = fragmentTag
-                binding.toolbar.navigationIcon = null
-                binding.contentLayout.bottomNavigation.visibility = View.VISIBLE
-            }
-            else -> {
-                binding.toolbar.title = fragmentTag
-                binding.contentLayout.bottomNavigation.visibility = View.GONE
-                binding.toolbar.setNavigationIcon(R.drawable.baseline_arrow_back_24)
-            }
+    private fun updateUi() {
+        val fragment = currentFragment
+        if (fragment is CustomizeAppBarTitle) {
+            binding.toolbar.title = fragment.customTitle()
+        }
+        if (fragment is CharactersFragment || fragment is LocationFragment || fragment is EpisodeFragment) {
+            binding.toolbar.navigationIcon = null
+            binding.contentLayout.bottomNavigation.visibility = View.VISIBLE
+        } else {
+            binding.contentLayout.bottomNavigation.visibility = View.GONE
+            binding.toolbar.setNavigationIcon(R.drawable.baseline_arrow_back_24)
         }
     }
 
-    private fun addFragment(fragment: Fragment, tag: String) {
-        visibilityBottomNavigation(tag)
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, fragment, "$fragment")
-            .commit()
+    override fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().setCustomAnimations(
+                R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out
+            ).replace(R.id.container, fragment).addToBackStack(null).commit()
     }
 
-    override fun replaceFragment(fragment: Fragment, tag: String) {
-        visibilityBottomNavigation(tag)
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, fragment)
-            .addToBackStack(null)
-            .commit()
-    }
-
-    override fun popUpToBackStack(tag: String) {
-        visibilityBottomNavigation(tag)
+    override fun popUpToBackStack() {
         supportFragmentManager.popBackStack()
     }
 
-    override fun removeFragment(fragment: Fragment, tag: String) {
-        visibilityBottomNavigation(tag)
-        supportFragmentManager
-            .beginTransaction()
-            .remove(fragment)
-            .commit()
+    override fun removeFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().remove(fragment).commit()
     }
 }

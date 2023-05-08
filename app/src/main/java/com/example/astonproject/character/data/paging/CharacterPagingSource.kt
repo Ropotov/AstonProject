@@ -3,12 +3,10 @@ package com.example.astonproject.character.data.paging
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.astonproject.character.domain.model.CharacterResult
 import com.example.astonproject.character.domain.repository.CharacterRepository
-import retrofit2.HttpException
 import javax.inject.Inject
 
 class CharacterPagingSource @Inject constructor(
@@ -39,18 +37,11 @@ class CharacterPagingSource @Inject constructor(
                 nextKey = page.plus(1)
             )
         } catch (e: Exception) {
-            Log.d("TAG", e.message.toString())
             LoadResult.Error(e)
-        } catch (e: HttpException) {
-            Log.d("TAG", e.message.toString())
-            LoadResult.Page(
-                data = emptyList(),
-                prevKey = null,
-                nextKey = null
-            )
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun hasConnected(context: Context): Boolean {
         val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = manager.activeNetworkInfo

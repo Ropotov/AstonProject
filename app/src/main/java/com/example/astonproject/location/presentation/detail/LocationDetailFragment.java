@@ -10,30 +10,32 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.astonproject.app.App;
+import com.example.astonproject.app.CustomizeAppBarTitle;
+import com.example.astonproject.app.Navigator;
 import com.example.astonproject.app.di.AppComponent;
 import com.example.astonproject.app.di.ViewModelFactory;
-import com.example.astonproject.character.domain.model.CharacterResult;
+import com.example.astonproject.character.presentation.detail.CharacterDetailFragment;
 import com.example.astonproject.databinding.FragmentLocationDetailBinding;
-import com.example.astonproject.location.presentation.detail.adapter.LocationDetailAdapter;
 import com.example.astonproject.location.domain.model.LocationResult;
+import com.example.astonproject.location.presentation.detail.adapter.LocationDetailAdapter;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class LocationDetailFragment extends Fragment {
+public class LocationDetailFragment extends Fragment implements CustomizeAppBarTitle {
 
     FragmentLocationDetailBinding binding;
     RecyclerView recyclerView;
     LocationDetailViewModel viewModel;
     LocationDetailAdapter adapter;
     AppComponent component;
+    Navigator navigator;
     String characters = "";
     private int id;
 
@@ -52,7 +54,7 @@ public class LocationDetailFragment extends Fragment {
 
     @Override
     public void onAttach(@NonNull Context context) {
-        App application = (App) getActivity().getApplication();
+        App application = (App) requireActivity().getApplication();
         component = application.getComponent();
         component.inject(this);
         super.onAttach(context);
@@ -73,6 +75,7 @@ public class LocationDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentLocationDetailBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(this, viewModelFactory).get(LocationDetailViewModel.class);
+        navigator = (Navigator) getActivity();
         return binding.getRoot();
     }
 
@@ -80,25 +83,27 @@ public class LocationDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rvInit();
-        viewModel.load(id);
-        viewModel.locationDetail.observe(getViewLifecycleOwner(), new Observer<LocationResult>() {
-            @Override
-            public void onChanged(LocationResult locationResult) {
-                content(locationResult);
-                toListStringNumber(locationResult.getResidents());
-                viewModel.loadListCharacter(characters);
-                viewModel.listCharacters.observe(getViewLifecycleOwner(), new Observer<List<CharacterResult>>() {
-                    @Override
-                    public void onChanged(List<CharacterResult> characterResults) {
-                        adapter.submitList(characterResults);
-                    }
-                });
+        loadContent();
+        addClickListener();
+    }
 
-            }
+    private void loadContent() {
+        viewModel.load(id);
+        viewModel.locationDetail.observe(getViewLifecycleOwner(), locationResult -> {
+            content(locationResult);
+            toListStringNumber(locationResult.getResidents());
+            viewModel.loadListCharacter(characters);
+            viewModel.listCharacters.observe(getViewLifecycleOwner(), characterResults ->
+                    adapter.submitList(characterResults));
         });
     }
 
-    private void rvInit(){
+    private void addClickListener() {
+        adapter.setOnCharacterClickListener(result -> navigator
+                .replaceFragment(CharacterDetailFragment.newInstance(result.getId())));
+    }
+
+    private void rvInit() {
         recyclerView = binding.rvResidents;
         adapter = new LocationDetailAdapter();
         recyclerView.setAdapter(adapter);
@@ -110,7 +115,7 @@ public class LocationDetailFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void content(LocationResult locationResult) {
-        binding.tvLocationCreated.setText("Created: " + locationResult.getCreated());
+        binding.tvLocationCreated.setText("Created: " + locationResult.getCreated().substring(0, 10));
         binding.tvLocationDimension.setText("Dimension: " + locationResult.getDimension());
         binding.tvLocationName.setText(locationResult.getName());
         binding.tvLocationType.setText("Type: " + locationResult.getType());
@@ -120,7 +125,13 @@ public class LocationDetailFragment extends Fragment {
     private void toListStringNumber(@NonNull List<String> list) {
         for (String i : list) {
             String newString = i.substring(i.lastIndexOf('/') + 1);
-            characters += newString + ",";
+            characters = characters.concat(newString + ",");
         }
+    }
+
+    @NonNull
+    @Override
+    public String customTitle() {
+        return TAG;
     }
 }

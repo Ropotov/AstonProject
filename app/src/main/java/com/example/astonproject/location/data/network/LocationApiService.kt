@@ -1,13 +1,11 @@
 package com.example.astonproject.location.data.network
 
 import com.example.astonproject.location.model.LocationDto
-import com.example.astonproject.location.model.LocationResultDto
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface LocationApiService {

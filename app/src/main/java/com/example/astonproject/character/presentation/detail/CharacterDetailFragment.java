@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,33 +17,38 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.astonproject.R;
 import com.example.astonproject.app.App;
+import com.example.astonproject.app.CustomizeAppBarTitle;
+import com.example.astonproject.app.Navigator;
 import com.example.astonproject.app.di.AppComponent;
 import com.example.astonproject.app.di.ViewModelFactory;
 import com.example.astonproject.character.domain.model.CharacterDetail;
 import com.example.astonproject.character.presentation.detail.adapter.DetailAdapter;
 import com.example.astonproject.databinding.FragmentCharacterDetailBinding;
-import com.example.astonproject.episode.domain.model.EpisodeResult;
+import com.example.astonproject.episode.presentation.detail.EpisodeDetailFragment;
+import com.example.astonproject.location.presentation.detail.LocationDetailFragment;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class CharacterDetailFragment extends Fragment {
+public class CharacterDetailFragment extends Fragment implements CustomizeAppBarTitle {
 
     FragmentCharacterDetailBinding binding;
     RecyclerView recyclerView;
     CharacterDetailViewModel viewModel;
     DetailAdapter adapter;
+    CharacterDetail detailCharacter;
     AppComponent component;
     String episodes = "";
     private int id;
+    Navigator navigator;
+
 
     @Inject
     ViewModelFactory viewModelFactory;
 
     public static final String TAG = "Character Detail";
+
     public static CharacterDetailFragment newInstance(int id) {
         CharacterDetailFragment fragment = new CharacterDetailFragment();
         Bundle bundle = new Bundle();
@@ -55,7 +59,7 @@ public class CharacterDetailFragment extends Fragment {
 
     @Override
     public void onAttach(@NonNull Context context) {
-        App application = (App) getActivity().getApplication();
+        App application = (App) requireActivity().getApplication();
         component = application.getComponent();
         component.inject(this);
         super.onAttach(context);
@@ -76,6 +80,7 @@ public class CharacterDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentCharacterDetailBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(this, viewModelFactory).get(CharacterDetailViewModel.class);
+        navigator = (Navigator) getActivity();
         return binding.getRoot();
     }
 
@@ -83,20 +88,45 @@ public class CharacterDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rvInit();
+        loadContent();
+    }
+
+
+    private void addClickListeners() {
+        String originUrl = detailCharacter.getOrigin().getUrl();
+        String locationUrl = detailCharacter.getLocation().getUrl();
+        if (!locationUrl.equals("")) {
+            binding.locationLearnMore.setVisibility(View.VISIBLE);
+            binding.locationLearnMore.setOnClickListener(view -> {
+                String id = locationUrl.substring(locationUrl.lastIndexOf("/") + 1);
+                navigator.replaceFragment(
+                        LocationDetailFragment.newInstance((Integer.parseInt(id))));
+            });
+        }
+
+        if (!originUrl.equals("")) {
+            binding.tvOriginLearnMore.setVisibility(View.VISIBLE);
+            binding.tvOriginLearnMore.setOnClickListener(view -> {
+                String id = originUrl.substring(originUrl.lastIndexOf("/") + 1);
+                navigator.replaceFragment(
+                        LocationDetailFragment.newInstance((Integer.parseInt(id))));
+            });
+        }
+        adapter.setOnEpisodeClickListener(result -> navigator
+                .replaceFragment(EpisodeDetailFragment.newInstance(result.getId())));
+    }
+
+    private void loadContent() {
         viewModel.load(id);
-        viewModel.characterDetail.observe(getViewLifecycleOwner(), new Observer<CharacterDetail>() {
-            @Override
-            public void onChanged(CharacterDetail characterDetail) {
-                content(characterDetail);
-                toListStringNumber(characterDetail.getEpisode());
-                viewModel.loadListEpisodes(episodes);
-                viewModel.listEpisodeDetail.observe(getViewLifecycleOwner(), new Observer<List<EpisodeResult>>() {
-                    @Override
-                    public void onChanged(List<EpisodeResult> episodeResults) {
-                        adapter.submitList(episodeResults);
-                    }
-                });
-            }
+        viewModel.characterDetail.observe(getViewLifecycleOwner(), characterDetail -> {
+            detailCharacter = characterDetail;
+            content(characterDetail);
+            toListStringNumber(characterDetail.getEpisode());
+            viewModel.loadListEpisodes(episodes);
+            viewModel.listEpisodeDetail.observe(getViewLifecycleOwner(), episodeResults -> {
+                adapter.submitList(episodeResults);
+                addClickListeners();
+            });
         });
     }
 
@@ -113,7 +143,7 @@ public class CharacterDetailFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     private void content(CharacterDetail characterDetail) {
         binding.tvCharacterName.setText(characterDetail.getName());
-        binding.tvCharacterCreated.setText(("Created: ").concat(characterDetail.getCreated()));
+        binding.tvCharacterCreated.setText(("Created: ").concat(characterDetail.getCreated().substring(0, 10)));
         binding.tvCharacterGender.setText(("Gender: ").concat(characterDetail.getGender()));
         binding.tvCharacterLocation.setText(("Location: ").concat(characterDetail.getLocation().getName()));
         binding.tvCharacterSpecies.setText(("Species: ").concat(characterDetail.getSpecies()));
@@ -126,7 +156,13 @@ public class CharacterDetailFragment extends Fragment {
     private void toListStringNumber(@NonNull List<String> list) {
         for (String i : list) {
             String newString = i.substring(i.lastIndexOf('/') + 1);
-            episodes += newString + ",";
+            episodes = episodes.concat(newString + ",");
         }
+    }
+
+    @NonNull
+    @Override
+    public String customTitle() {
+        return TAG;
     }
 }

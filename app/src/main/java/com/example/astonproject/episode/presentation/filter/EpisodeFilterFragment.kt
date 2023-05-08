@@ -6,17 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import com.example.astonproject.app.App
-import com.example.astonproject.databinding.FragmentEpisodeFilterBinding
+import com.example.astonproject.app.CustomizeAppBarTitle
 import com.example.astonproject.app.Navigator
+import com.example.astonproject.databinding.FragmentEpisodeFilterBinding
+import com.example.astonproject.episode.domain.model.EpisodeFilter
 
-class EpisodeFilterFragment : Fragment() {
+class EpisodeFilterFragment : Fragment(), CustomizeAppBarTitle {
 
     private lateinit var binding: FragmentEpisodeFilterBinding
-    private var name = EMPTY_STRING
-    private var episode = EMPTY_STRING
+    private var filter: EpisodeFilter? = null
 
     private val component by lazy {
         (requireActivity().application as App).component
@@ -37,9 +39,7 @@ class EpisodeFilterFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        name = arguments?.getString("name") ?: EMPTY_STRING
-        episode = arguments?.getString("episode") ?: EMPTY_STRING
-
+        filter = arguments?.getParcelable("filter")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,13 +47,13 @@ class EpisodeFilterFragment : Fragment() {
         val navigator = requireActivity() as Navigator
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                navigator.popUpToBackStack("Episode")
+                navigator.popUpToBackStack()
             }
         }
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, callback)
 
-        if (name.isNotEmpty()) binding.search.setText(name)
-        when (episode) {
+        if (filter?.name?.isNotEmpty() == true) binding.search.setText(filter?.name)
+        when (filter?.episode) {
             "S01" -> binding.season1.isChecked = true
             "S02" -> binding.season2.isChecked = true
             "S03" -> binding.season3.isChecked = true
@@ -62,37 +62,38 @@ class EpisodeFilterFragment : Fragment() {
         }
 
         binding.save.setOnClickListener {
-            name = EMPTY_STRING
-            episode = EMPTY_STRING
-            name = binding.search.text.toString()
-            if (binding.season1.isChecked) episode = "S01"
-            if (binding.season2.isChecked) episode = "S02"
-            if (binding.season3.isChecked) episode = "S03"
-            if (binding.season4.isChecked) episode = "S04"
-            if (binding.season5.isChecked) episode = "S05"
+            filter?.name = EMPTY_STRING
+            filter?.episode = EMPTY_STRING
+            filter?.name = binding.search.text.toString()
+            if (binding.season1.isChecked) filter?.episode = "S01"
+            if (binding.season2.isChecked) filter?.episode = "S02"
+            if (binding.season3.isChecked) filter?.episode = "S03"
+            if (binding.season4.isChecked) filter?.episode = "S04"
+            if (binding.season5.isChecked) filter?.episode = "S05"
 
 
             setFragmentResult(
                 "requestKey", Bundle().apply {
-                    putString("name", name)
-                    putString("episode", episode)
+                    putParcelable("filter", filter)
                 }
             )
-            navigator.popUpToBackStack("Episode")
+            navigator.popUpToBackStack()
         }
     }
 
     companion object {
         const val TAG = "Filter"
         private const val EMPTY_STRING = ""
+
         @JvmStatic
-        fun newInstance(name: String, episode: String): EpisodeFilterFragment {
+        fun newInstance(filter: EpisodeFilter): EpisodeFilterFragment {
             return EpisodeFilterFragment().apply {
-                arguments = Bundle().apply {
-                    putString("name", name)
-                    putString("episode", episode)
-                }
+                arguments = bundleOf("filter" to filter)
             }
         }
+    }
+
+    override fun customTitle(): String {
+        return TAG
     }
 }

@@ -16,9 +16,11 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.astonproject.app.App
-import com.example.astonproject.databinding.FragmentEpisodesBinding
-import com.example.astonproject.app.di.ViewModelFactory
+import com.example.astonproject.app.CustomizeAppBarTitle
 import com.example.astonproject.app.Navigator
+import com.example.astonproject.app.di.ViewModelFactory
+import com.example.astonproject.databinding.FragmentEpisodesBinding
+import com.example.astonproject.episode.domain.model.EpisodeFilter
 import com.example.astonproject.episode.presentation.detail.EpisodeDetailFragment
 import com.example.astonproject.episode.presentation.episode.adapter.EpisodeAdapter
 import com.example.astonproject.episode.presentation.filter.EpisodeFilterFragment
@@ -26,7 +28,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class EpisodeFragment : Fragment() {
+class EpisodeFragment : Fragment(), CustomizeAppBarTitle {
 
     private lateinit var binding: FragmentEpisodesBinding
     private lateinit var recyclerView: RecyclerView
@@ -34,9 +36,9 @@ class EpisodeFragment : Fragment() {
     private val episodeAdapter by lazy {
         EpisodeAdapter()
     }
-
-    private var name = EMPTY_STRING
-    private var episode = EMPTY_STRING
+    private var filter = EpisodeFilter(
+        EMPTY_STRING, EMPTY_STRING
+    )
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -53,12 +55,7 @@ class EpisodeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setFragmentResultListener("requestKey") { _, bundle ->
-            name = bundle.getString("name") ?: EMPTY_STRING
-            episode = bundle.getString("episode") ?: EMPTY_STRING
-            lifecycleScope.launch {
-                viewModel.load(name, episode)
-                viewModel.episodeFlow.collectLatest(episodeAdapter::submitData)
-            }
+            filter = bundle.getParcelable("filter")!!
         }
     }
 
@@ -81,16 +78,14 @@ class EpisodeFragment : Fragment() {
 
         binding.filterButton.setOnClickListener {
             navigator.replaceFragment(
-                EpisodeFilterFragment.newInstance(name, episode),
-                EpisodeFilterFragment.TAG
+                EpisodeFilterFragment.newInstance(filter)
             )
         }
 
-        episodeAdapter.onCharacterClickListener =  {
+        episodeAdapter.onCharacterClickListener = {
             if (it != null) {
                 navigator.replaceFragment(
-                    EpisodeDetailFragment.newInstance(it.id),
-                    EpisodeDetailFragment.TAG
+                    EpisodeDetailFragment.newInstance(it.id)
                 )
             }
         }
@@ -108,13 +103,30 @@ class EpisodeFragment : Fragment() {
 
     private fun loadCharacters() {
         lifecycleScope.launch {
-            viewModel.load(name, episode)
+            viewModel.load(filter.name, filter.episode)
             viewModel.episodeFlow.collectLatest(episodeAdapter::submitData)
         }
+        lifecycleScope.launch {
+            viewModel.loadCount(filter.name, filter.episode)
+            viewModel.episodeCount.observe(viewLifecycleOwner) {
+                if (it.count == 0) {
+                    errorVisibility(true)
+                } else {
+                    errorVisibility(false)
+                }
+            }
+        }
+    }
 
-        episodeAdapter.addLoadStateListener {
-            binding.episodesRecyclerView.isVisible = it.refresh != LoadState.Loading
-            binding.progressBar.isVisible = it.refresh == LoadState.Loading
+    private fun errorVisibility(boolean: Boolean) {
+        if (boolean) {
+            binding.episodesRecyclerView.visibility = View.GONE
+            binding.errorImage.visibility = View.VISIBLE
+            binding.errorText.visibility = View.VISIBLE
+        } else {
+            binding.errorImage.visibility = View.GONE
+            binding.errorText.visibility = View.GONE
+            binding.episodesRecyclerView.visibility = View.VISIBLE
         }
     }
 
@@ -135,6 +147,10 @@ class EpisodeFragment : Fragment() {
                 )
             )
         }
+        episodeAdapter.addLoadStateListener {
+            binding.episodesRecyclerView.isVisible = it.refresh != LoadState.Loading
+            binding.progressBar.isVisible = it.refresh == LoadState.Loading
+        }
     }
 
     companion object {
@@ -143,5 +159,9 @@ class EpisodeFragment : Fragment() {
 
         @JvmStatic
         fun newInstance() = EpisodeFragment()
+    }
+
+    override fun customTitle(): String {
+        return TAG
     }
 }

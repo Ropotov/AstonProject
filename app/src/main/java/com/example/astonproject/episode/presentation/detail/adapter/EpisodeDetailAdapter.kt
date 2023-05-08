@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.astonproject.character.domain.model.CharacterResult
 import com.example.astonproject.databinding.CharacterEpisodeItemBinding
-import com.example.astonproject.location.presentation.detail.adapter.LocationDetailViewHolder
 
-class EpisodeDetailAdapter : ListAdapter<CharacterResult, EpisodeDetailViewHolder>(EpisodeDetailDiffUtil()) {
+class EpisodeDetailAdapter :
+    ListAdapter<CharacterResult, EpisodeDetailViewHolder>(EpisodeDetailDiffUtil()) {
 
-    val onCharacterClickListener: ((CharacterResult?) -> Unit)? = null
+    var onCharacterClickListener: ((CharacterResult?) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodeDetailViewHolder {
         val binding = CharacterEpisodeItemBinding.inflate(
