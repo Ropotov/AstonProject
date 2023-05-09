@@ -1,6 +1,6 @@
 package com.example.astonproject.location.data.network
 
-import com.example.astonproject.location.model.LocationDto
+import com.example.astonproject.location.data.model.LocationDto
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

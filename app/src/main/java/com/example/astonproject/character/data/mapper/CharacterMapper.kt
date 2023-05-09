@@ -1,6 +1,5 @@
 package com.example.astonproject.character.data.mapper
 
-import com.example.astonproject.character.data.database.model.CharacterResultDbModel
 import com.example.astonproject.character.data.model.character.*
 import com.example.astonproject.character.domain.model.*
 import javax.inject.Inject
@@ -38,45 +37,10 @@ class CharacterMapper @Inject constructor() {
         mapResultsDtoToResults(it)
     }
 
-
     fun mapCharacterDtoToCharacter(characterDto: CharacterDto) = Character(
         info = mapInfoDtoToInfo(characterDto.info),
         results = mapListResultsDtoToListResults(characterDto.results)
     )
-
-    private fun mapCharacterResultToCharacterResultDbModel(characterResult: CharacterResult): CharacterResultDbModel {
-        return CharacterResultDbModel(
-            gender = characterResult.gender,
-            id = characterResult.id,
-            status = characterResult.status,
-            name = characterResult.name,
-            species = characterResult.species,
-            image = characterResult.image,
-            url = characterResult.url,
-            type = characterResult.type,
-            created = characterResult.created
-        )
-    }
-
-    fun mapCharacterResultDbToCharacterResult(characterResult: CharacterResultDbModel): CharacterResult {
-        return CharacterResult(
-            gender = characterResult.gender,
-            id = characterResult.id,
-            status = characterResult.status,
-            name = characterResult.name,
-            species = characterResult.species,
-            image = characterResult.image,
-            location = CharacterLocation("", ""),
-            url = characterResult.url,
-            type = characterResult.type,
-            created = characterResult.created,
-            episode = emptyList()
-        )
-    }
-
-    fun mapListResultDtoToListDbModel(list: List<CharacterResult>) = list.map {
-        mapCharacterResultToCharacterResultDbModel(it)
-    }
 
     fun mapDetailDtoToDetail(characterDetailDto: CharacterDetailDto): CharacterDetail {
         return CharacterDetail(

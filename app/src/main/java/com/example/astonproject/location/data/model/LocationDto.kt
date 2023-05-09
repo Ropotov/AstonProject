@@ -1,4 +1,4 @@
-package com.example.astonproject.location.model
+package com.example.astonproject.location.data.model
 
 data class LocationDto(
     val info: LocationInfoDto?,

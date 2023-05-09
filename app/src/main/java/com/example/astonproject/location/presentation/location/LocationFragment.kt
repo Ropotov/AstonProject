@@ -2,6 +2,7 @@ package com.example.astonproject.location.presentation.location
 
 import android.content.Context
 import android.graphics.Color
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import com.example.astonproject.R
 import com.example.astonproject.app.App
 import com.example.astonproject.app.CustomizeAppBarTitle
 import com.example.astonproject.app.Navigator
@@ -72,9 +74,18 @@ class LocationFragment : Fragment(), CustomizeAppBarTitle {
         val navigator = requireActivity() as Navigator
         binding.filterButton.setColorFilter(Color.WHITE)
         initRecyclerView()
-        loadLocation()
+        loadContent()
         swipeRefresh()
         addListeners(navigator)
+    }
+
+    private fun loadContent() {
+        if (hasConnected(requireContext())) {
+            errorConnectivity(true)
+            loadLocation()
+        } else {
+            errorConnectivity(false)
+        }
     }
 
     private fun addListeners(navigator: Navigator) {
@@ -82,6 +93,9 @@ class LocationFragment : Fragment(), CustomizeAppBarTitle {
             navigator.replaceFragment(
                 LocationFilterFragment.newInstance(filter)
             )
+        }
+        binding.errorBtn.setOnClickListener {
+            loadContent()
         }
         locationAdapter.onCharacterClickListener = {
             if (it != null) {
@@ -132,6 +146,24 @@ class LocationFragment : Fragment(), CustomizeAppBarTitle {
         }
     }
 
+    private fun errorConnectivity(boolean: Boolean) {
+        if (boolean) {
+            binding.locationRecyclerView.visibility = View.VISIBLE
+            binding.errorImage.visibility = View.GONE
+            binding.errorText.visibility = View.GONE
+            binding.errorBtn.visibility = View.GONE
+            binding.filterButton.visibility = View.VISIBLE
+            binding.errorText.text = getString(R.string.error_text)
+        } else {
+            binding.locationRecyclerView.visibility = View.GONE
+            binding.errorImage.visibility = View.VISIBLE
+            binding.errorText.visibility = View.VISIBLE
+            binding.errorBtn.visibility = View.VISIBLE
+            binding.filterButton.visibility = View.GONE
+            binding.errorText.text = getString(R.string.notConnected)
+        }
+    }
+
     private fun initRecyclerView() {
         recyclerView = binding.locationRecyclerView
         recyclerView.apply {
@@ -155,6 +187,13 @@ class LocationFragment : Fragment(), CustomizeAppBarTitle {
 
     override fun customTitle(): String {
         return TAG
+    }
+
+    @Suppress("DEPRECATION")
+    private fun hasConnected(context: Context): Boolean {
+        val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = manager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
     }
 
     companion object {

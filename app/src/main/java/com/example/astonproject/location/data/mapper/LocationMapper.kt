@@ -3,10 +3,9 @@ package com.example.astonproject.location.data.mapper
 import com.example.astonproject.location.domain.model.Location
 import com.example.astonproject.location.domain.model.LocationInfo
 import com.example.astonproject.location.domain.model.LocationResult
-import com.example.astonproject.location.model.LocationDto
-import com.example.astonproject.location.model.LocationInfoDto
-import com.example.astonproject.location.model.LocationResultDto
-import com.example.astonproject.location.presentation.model.LocationUiModel
+import com.example.astonproject.location.data.model.LocationDto
+import com.example.astonproject.location.data.model.LocationInfoDto
+import com.example.astonproject.location.data.model.LocationResultDto
 import javax.inject.Inject
 
 class LocationMapper @Inject constructor() {

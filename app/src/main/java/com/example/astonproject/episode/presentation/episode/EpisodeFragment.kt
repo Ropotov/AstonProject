@@ -2,6 +2,7 @@ package com.example.astonproject.episode.presentation.episode
 
 import android.content.Context
 import android.graphics.Color
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import com.example.astonproject.R
 import com.example.astonproject.app.App
 import com.example.astonproject.app.CustomizeAppBarTitle
 import com.example.astonproject.app.Navigator
@@ -73,13 +75,28 @@ class EpisodeFragment : Fragment(), CustomizeAppBarTitle {
         val navigator = requireActivity() as Navigator
         binding.filterButton.setColorFilter(Color.WHITE)
         initRecyclerView()
-        loadCharacters()
+        loadContent()
         swipeRefresh()
+        addListeners(navigator)
+    }
 
+    private fun loadContent() {
+        if (hasConnected(requireContext())) {
+            errorConnectivity(true)
+            loadCharacters()
+        } else {
+            errorConnectivity(false)
+        }
+    }
+
+    private fun addListeners(navigator: Navigator) {
         binding.filterButton.setOnClickListener {
             navigator.replaceFragment(
                 EpisodeFilterFragment.newInstance(filter)
             )
+        }
+        binding.errorBtn.setOnClickListener {
+            loadContent()
         }
 
         episodeAdapter.onCharacterClickListener = {
@@ -130,6 +147,24 @@ class EpisodeFragment : Fragment(), CustomizeAppBarTitle {
         }
     }
 
+    private fun errorConnectivity(boolean: Boolean) {
+        if (boolean) {
+            binding.episodesRecyclerView.visibility = View.VISIBLE
+            binding.errorImage.visibility = View.GONE
+            binding.errorText.visibility = View.GONE
+            binding.errorBtn.visibility = View.GONE
+            binding.filterButton.visibility = View.VISIBLE
+            binding.errorText.text = getString(R.string.error_text)
+        } else {
+            binding.episodesRecyclerView.visibility = View.GONE
+            binding.errorImage.visibility = View.VISIBLE
+            binding.errorText.visibility = View.VISIBLE
+            binding.errorBtn.visibility = View.VISIBLE
+            binding.filterButton.visibility = View.GONE
+            binding.errorText.text = getString(R.string.notConnected)
+        }
+    }
+
     private fun initRecyclerView() {
         recyclerView = binding.episodesRecyclerView
         recyclerView.apply {
@@ -151,6 +186,13 @@ class EpisodeFragment : Fragment(), CustomizeAppBarTitle {
             binding.episodesRecyclerView.isVisible = it.refresh != LoadState.Loading
             binding.progressBar.isVisible = it.refresh == LoadState.Loading
         }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun hasConnected(context: Context): Boolean {
+        val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = manager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
     }
 
     companion object {

@@ -42,16 +42,28 @@ class MainActivity : FragmentActivity(), Navigator {
         binding.contentLayout.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.characters -> {
-                    replaceFragment(CharactersFragment.newInstance())
-                    true
+                    if (currentFragment is CharactersFragment) {
+                        true
+                    } else {
+                        replaceFragment(CharactersFragment.newInstance())
+                        true
+                    }
                 }
                 R.id.location -> {
-                    replaceFragment(LocationFragment.newInstance())
-                    true
+                    if (currentFragment is LocationFragment) {
+                        true
+                    } else {
+                        replaceFragment(LocationFragment.newInstance())
+                        true
+                    }
                 }
                 R.id.episodes -> {
-                    replaceFragment(EpisodeFragment.newInstance())
-                    true
+                    if (currentFragment is EpisodeFragment) {
+                        true
+                    } else {
+                        replaceFragment(EpisodeFragment.newInstance())
+                        true
+                    }
                 }
                 else -> false
             }
@@ -76,16 +88,19 @@ class MainActivity : FragmentActivity(), Navigator {
     }
 
     override fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().setCustomAnimations(
-                R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out
-            ).replace(R.id.container, fragment).addToBackStack(null).commit()
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.slide_in,
+                R.anim.fade_out,
+                R.anim.fade_in,
+                R.anim.slide_out
+            )
+            .replace(R.id.container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun popUpToBackStack() {
         supportFragmentManager.popBackStack()
-    }
-
-    override fun removeFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().remove(fragment).commit()
     }
 }

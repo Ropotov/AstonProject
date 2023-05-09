@@ -5,7 +5,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.astonproject.character.domain.model.CharacterResult;
 import com.example.astonproject.location.domain.model.LocationResult;
-import com.example.astonproject.location.domain.repository.LocationRepository;
+import com.example.astonproject.location.domain.useCases.GetListCharactersUseCase;
+import com.example.astonproject.location.domain.useCases.GetLocationDetailUseCase;
 
 import java.util.List;
 
@@ -17,11 +18,14 @@ import io.reactivex.schedulers.Schedulers;
 
 public class LocationDetailViewModel extends ViewModel {
 
-    LocationRepository repository;
+    GetLocationDetailUseCase getLocationDetailUseCase;
+    GetListCharactersUseCase getListCharactersUseCase;
 
     @Inject
-    public LocationDetailViewModel(LocationRepository repository) {
-        this.repository = repository;
+    public LocationDetailViewModel(GetLocationDetailUseCase getLocationDetailUseCase,
+                                   GetListCharactersUseCase getListCharactersUseCase) {
+        this.getLocationDetailUseCase = getLocationDetailUseCase;
+        this.getListCharactersUseCase = getListCharactersUseCase;
     }
 
     MutableLiveData<LocationResult> locationDetail = new MutableLiveData<>();
@@ -29,7 +33,9 @@ public class LocationDetailViewModel extends ViewModel {
     MutableLiveData<List<CharacterResult>> listCharacters = new MutableLiveData<>();
 
     void load(int id) {
-        repository.getDetailLocation(id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        getLocationDetailUseCase.getDetailLocation(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<LocationResult>() {
                     @Override
                     public void onSuccess(LocationResult locationResult) {
@@ -44,18 +50,20 @@ public class LocationDetailViewModel extends ViewModel {
     }
 
     void loadListCharacter(String id) {
-        repository.getListCharacter(id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
-                new DisposableSingleObserver<List<CharacterResult>>() {
-                    @Override
-                    public void onSuccess(List<CharacterResult> characterResults) {
-                        listCharacters.setValue(characterResults);
-                    }
+        getListCharactersUseCase.getListCharacters(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<List<CharacterResult>>() {
+                               @Override
+                               public void onSuccess(List<CharacterResult> characterResults) {
+                                   listCharacters.setValue(characterResults);
+                               }
 
-                    @Override
-                    public void onError(Throwable e) {
+                               @Override
+                               public void onError(Throwable e) {
 
-                    }
-                }
-        );
+                               }
+                           }
+                );
     }
 }

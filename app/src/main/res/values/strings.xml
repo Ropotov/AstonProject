@@ -35,6 +35,10 @@
     <string name="replacementDimension">Replacement Dimension</string>
     <string name="dimensionC137">Dimension C-137</string>
     <string name="episodes_title">Episodes:</string>
-    <string name="error_text">Upps! An error has occurred, try to select other filter options.</string>
+    <string name="error_text">Oops! An error has occurred, try to select other filter options.</string>
     <string name="learn_more">Learn more</string>
+    <string name="notConnected">Oops, there seems to be no internet connection. Check your connection and try again.</string>
+    <string name="error">error</string>
+    <string name="retry">Retry</string>
+    <string name="avatar">avatar</string>
 </resources>
