@@ -24,8 +24,9 @@
                 android:id="@+id/ivPhoto"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
-                tools:srcCompat="@tools:sample/avatars"
-                android:contentDescription="@string/avatar" />
+                android:contentDescription="@string/avatar"
+                tools:ignore="ImageContrastCheck"
+                tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/tvCharacterName"
@@ -44,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_8"
-                android:textColor="@color/teal_700"
+                android:textColor="#00796B"
                 android:textSize="16sp"
                 tools:text="Human" />
 
@@ -53,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_8"
-                android:textColor="@color/teal_700"
+                android:textColor="#00796B"
                 android:textSize="16sp"
                 tools:text="Male" />
 
@@ -62,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_8"
-                android:textColor="@color/teal_700"
+                android:textColor="#00796B"
                 android:textSize="16sp"
                 tools:text="Alive" />
 
@@ -71,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_8"
-                android:textColor="@color/teal_700"
+                android:textColor="#00796B"
                 android:textSize="16sp"
                 tools:text="Human" />
 
@@ -86,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_8"
                     android:layout_weight="1"
-                    android:textColor="@color/teal_700"
+                    android:textColor="#00796B"
                     android:textSize="16sp"
                     tools:text="Human" />
 
@@ -113,7 +114,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_8"
                     android:layout_weight="1"
-                    android:textColor="@color/teal_700"
+                    android:textColor="#00796B"
                     android:textSize="16sp"
                     tools:text="Human" />
 

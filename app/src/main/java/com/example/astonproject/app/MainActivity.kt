@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.example.astonproject.R
+import com.example.astonproject.app.utils.CustomizeAppBarTitle
+import com.example.astonproject.app.utils.ErrorFragment
+import com.example.astonproject.app.utils.Navigator
 import com.example.astonproject.character.presentation.character.CharactersFragment
 import com.example.astonproject.databinding.ActivityMainBinding
 import com.example.astonproject.episode.presentation.episode.EpisodeFragment
@@ -73,19 +76,43 @@ class MainActivity : FragmentActivity(), Navigator {
         }
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        when (currentFragment) {
+            is CharactersFragment, is LocationFragment, is EpisodeFragment -> finish()
+            else -> popUpToBackStack()
+        }
+    }
+
     private fun updateUi() {
         val fragment = currentFragment
         if (fragment is CustomizeAppBarTitle) {
             binding.toolbar.title = fragment.customTitle()
         }
-        if (fragment is CharactersFragment || fragment is LocationFragment || fragment is EpisodeFragment) {
-            binding.toolbar.navigationIcon = null
-            binding.contentLayout.bottomNavigation.visibility = View.VISIBLE
-        } else {
-            binding.contentLayout.bottomNavigation.visibility = View.GONE
-            binding.toolbar.setNavigationIcon(R.drawable.baseline_arrow_back_24)
+        when (fragment) {
+            is CharactersFragment, is LocationFragment, is EpisodeFragment -> {
+                binding.toolbar.visibility = View.VISIBLE
+                binding.toolbar.navigationIcon = null
+                binding.contentLayout.bottomNavigation.visibility = View.VISIBLE
+            }
+            is ErrorFragment -> {
+                binding.toolbar.visibility = View.GONE
+                binding.contentLayout.bottomNavigation.visibility = View.GONE
+            }
+            else -> {
+                binding.toolbar.visibility = View.VISIBLE
+                binding.contentLayout.bottomNavigation.visibility = View.GONE
+                binding.toolbar.setNavigationIcon(R.drawable.baseline_arrow_back_24)
+            }
         }
     }
+
+    override fun addFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, fragment)
+            .commit()
+    }
+
 
     override fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()

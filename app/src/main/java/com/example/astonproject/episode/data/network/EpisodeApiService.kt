@@ -3,9 +3,11 @@ package com.example.astonproject.episode.data.network
 import com.example.astonproject.character.domain.model.CharacterResult
 import com.example.astonproject.episode.data.model.EpisodeDto
 import com.example.astonproject.episode.data.model.EpisodeResultDto
+import io.reactivex.Single
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -26,6 +28,9 @@ interface EpisodeApiService {
     @GET("character/{id}")
     suspend fun getListCharacter(@Path("id") id: String): List<CharacterResult>
 
+    @GET("episode/{id}")
+    fun getDetailEpisodeList(@Path("id") list: String): Single<List<EpisodeResultDto>>
+
     companion object {
         object EpisodeRetrofit {
 
@@ -42,6 +47,7 @@ interface EpisodeApiService {
                     .client(okHttpClient)
                     .baseUrl(URL)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build()
             }
 

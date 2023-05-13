@@ -1,10 +1,12 @@
 package com.example.astonproject.episode.di
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import com.example.astonproject.app.di.ViewModelKey
+import com.example.astonproject.episode.data.db.EpisodeDataBase
+import com.example.astonproject.episode.data.db.dao.EpisodeDao
 import com.example.astonproject.episode.data.network.EpisodeApiService
 import com.example.astonproject.episode.data.network.EpisodeApiService.Companion.EpisodeRetrofit
-import com.example.astonproject.episode.data.network.EpisodeApiServiceRX
 import com.example.astonproject.episode.data.repository.EpisodeRepositoryImpl
 import com.example.astonproject.episode.domain.reposiitory.EpisodeRepository
 import com.example.astonproject.episode.presentation.detail.EpisodeDetailViewModel
@@ -13,7 +15,6 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import com.example.astonproject.episode.data.network.EpisodeApiServiceRX.Companion.EpisodeRetrofitRX
 
 @Module
 interface EpisodeModule {
@@ -38,8 +39,8 @@ interface EpisodeModule {
         }
 
         @Provides
-        fun provideApiServiceRX(): EpisodeApiServiceRX {
-            return EpisodeRetrofitRX.episodeApiServiceRX
+        fun provideEpisodeDao(application: Application): EpisodeDao {
+            return EpisodeDataBase.getMainDatabase(application).episodeDao()
         }
     }
 }

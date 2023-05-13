@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.astonproject.app.App;
-import com.example.astonproject.app.CustomizeAppBarTitle;
-import com.example.astonproject.app.Navigator;
+import com.example.astonproject.app.utils.CustomizeAppBarTitle;
+import com.example.astonproject.app.utils.Navigator;
 import com.example.astonproject.app.di.AppComponent;
 import com.example.astonproject.app.di.ViewModelFactory;
 import com.example.astonproject.character.presentation.detail.CharacterDetailFragment;

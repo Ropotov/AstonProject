@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".app.utils.ErrorFragment">
+
+    <ImageView
+        android:id="@+id/errorImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/error"
+        android:layout_gravity="center"
+        android:contentDescription="@string/error" />
+
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/teal_700"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:layout_margin="@dimen/margin_16"
+        android:text="@string/error_text"/>
+
+    <Button
+        android:id="@+id/openFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_8"
+        android:background="@drawable/button_style"
+        android:text="@string/back"
+        android:textAllCaps="false"
+        android:textColor="#000000"
+        tools:ignore="VisualLintButtonSize" />
+
+
+    <Button
+        android:id="@+id/exit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_8"
+        android:background="@drawable/button_style"
+        android:text="@string/exit"
+        android:textAllCaps="false"
+        android:textColor="#000000"
+        tools:ignore="VisualLintButtonSize" />
+
+</LinearLayout>

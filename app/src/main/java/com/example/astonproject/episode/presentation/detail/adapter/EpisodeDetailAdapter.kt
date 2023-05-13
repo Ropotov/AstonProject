@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.astonproject.character.domain.model.CharacterResult
-import com.example.astonproject.databinding.CharacterEpisodeItemBinding
+import com.example.astonproject.databinding.CharacterItemBinding
 
 class EpisodeDetailAdapter :
     ListAdapter<CharacterResult, EpisodeDetailViewHolder>(EpisodeDetailDiffUtil()) {
@@ -13,7 +13,7 @@ class EpisodeDetailAdapter :
     var onCharacterClickListener: ((CharacterResult?) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodeDetailViewHolder {
-        val binding = CharacterEpisodeItemBinding.inflate(
+        val binding = CharacterItemBinding.inflate(
             LayoutInflater.from(
                 parent.context
             ), parent, false

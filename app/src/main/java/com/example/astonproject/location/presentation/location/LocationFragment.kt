@@ -2,7 +2,6 @@ package com.example.astonproject.location.presentation.location
 
 import android.content.Context
 import android.graphics.Color
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,14 +12,13 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.example.astonproject.R
 import com.example.astonproject.app.App
-import com.example.astonproject.app.CustomizeAppBarTitle
-import com.example.astonproject.app.Navigator
 import com.example.astonproject.app.di.ViewModelFactory
+import com.example.astonproject.app.utils.CustomizeAppBarTitle
+import com.example.astonproject.app.utils.ErrorFragment
+import com.example.astonproject.app.utils.Navigator
 import com.example.astonproject.databinding.FragmentLocationBinding
 import com.example.astonproject.location.domain.model.LocationFilter
 import com.example.astonproject.location.presentation.detail.LocationDetailFragment
@@ -28,6 +26,8 @@ import com.example.astonproject.location.presentation.filter.LocationFilterFragm
 import com.example.astonproject.location.presentation.location.adapter.LocationAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 class LocationFragment : Fragment(), CustomizeAppBarTitle {
@@ -35,6 +35,7 @@ class LocationFragment : Fragment(), CustomizeAppBarTitle {
     private lateinit var binding: FragmentLocationBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: LocationViewModel
+    private lateinit var navigator: Navigator
     private val locationAdapter by lazy {
         LocationAdapter()
     }
@@ -57,6 +58,7 @@ class LocationFragment : Fragment(), CustomizeAppBarTitle {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setFragmentResultListener("requestKey") { _, bundle ->
+            @Suppress("DEPRECATION")
             filter = bundle.getParcelable("filter")!!
         }
     }
@@ -71,21 +73,12 @@ class LocationFragment : Fragment(), CustomizeAppBarTitle {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val navigator = requireActivity() as Navigator
+        navigator = requireActivity() as Navigator
         binding.filterButton.setColorFilter(Color.WHITE)
         initRecyclerView()
-        loadContent()
+        loadLocation()
         swipeRefresh()
         addListeners(navigator)
-    }
-
-    private fun loadContent() {
-        if (hasConnected(requireContext())) {
-            errorConnectivity(true)
-            loadLocation()
-        } else {
-            errorConnectivity(false)
-        }
     }
 
     private fun addListeners(navigator: Navigator) {
@@ -93,9 +86,6 @@ class LocationFragment : Fragment(), CustomizeAppBarTitle {
             navigator.replaceFragment(
                 LocationFilterFragment.newInstance(filter)
             )
-        }
-        binding.errorBtn.setOnClickListener {
-            loadContent()
         }
         locationAdapter.onCharacterClickListener = {
             if (it != null) {
@@ -108,10 +98,7 @@ class LocationFragment : Fragment(), CustomizeAppBarTitle {
 
     private fun swipeRefresh() {
         binding.swipeRefresh.setOnRefreshListener {
-            lifecycleScope.launch {
-                locationAdapter.submitData(PagingData.empty())
-                viewModel.locationFlow.collectLatest(locationAdapter::submitData)
-            }
+            loadLocation()
             binding.swipeRefresh.isRefreshing = false
         }
     }
@@ -121,46 +108,6 @@ class LocationFragment : Fragment(), CustomizeAppBarTitle {
             viewModel.load(filter.name, filter.type, filter.dimension)
             viewModel.locationFlow.collectLatest(locationAdapter::submitData)
 
-        }
-        lifecycleScope.launch {
-            viewModel.loadCount(filter.name, filter.type, filter.dimension)
-            viewModel.locationCount.observe(viewLifecycleOwner) {
-                if (it.count == 0) {
-                    errorVisibility(true)
-                } else {
-                    errorVisibility(false)
-                }
-            }
-        }
-    }
-
-    private fun errorVisibility(boolean: Boolean) {
-        if (boolean) {
-            binding.locationRecyclerView.visibility = View.GONE
-            binding.errorImage.visibility = View.VISIBLE
-            binding.errorText.visibility = View.VISIBLE
-        } else {
-            binding.errorImage.visibility = View.GONE
-            binding.errorText.visibility = View.GONE
-            binding.locationRecyclerView.visibility = View.VISIBLE
-        }
-    }
-
-    private fun errorConnectivity(boolean: Boolean) {
-        if (boolean) {
-            binding.locationRecyclerView.visibility = View.VISIBLE
-            binding.errorImage.visibility = View.GONE
-            binding.errorText.visibility = View.GONE
-            binding.errorBtn.visibility = View.GONE
-            binding.filterButton.visibility = View.VISIBLE
-            binding.errorText.text = getString(R.string.error_text)
-        } else {
-            binding.locationRecyclerView.visibility = View.GONE
-            binding.errorImage.visibility = View.VISIBLE
-            binding.errorText.visibility = View.VISIBLE
-            binding.errorBtn.visibility = View.VISIBLE
-            binding.filterButton.visibility = View.GONE
-            binding.errorText.text = getString(R.string.notConnected)
         }
     }
 
@@ -180,20 +127,21 @@ class LocationFragment : Fragment(), CustomizeAppBarTitle {
             )
         }
         locationAdapter.addLoadStateListener {
-            binding.locationRecyclerView.isVisible = it.refresh != LoadState.Loading
             binding.progressBar.isVisible = it.refresh == LoadState.Loading
+            val errorState = when {
+                it.prepend is LoadState.Error -> it.prepend as LoadState.Error
+                it.refresh is LoadState.Error -> it.refresh as LoadState.Error
+                else -> null
+            }
+            when (errorState?.error) {
+                is IOException -> navigator.replaceFragment(ErrorFragment.newInstance(TAG))
+                is HttpException -> navigator.replaceFragment(ErrorFragment.newInstance(TAG))
+            }
         }
     }
 
     override fun customTitle(): String {
         return TAG
-    }
-
-    @Suppress("DEPRECATION")
-    private fun hasConnected(context: Context): Boolean {
-        val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = manager.activeNetworkInfo
-        return networkInfo != null && networkInfo.isConnected
     }
 
     companion object {

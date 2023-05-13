@@ -2,7 +2,6 @@ package com.example.astonproject.episode.presentation.episode
 
 import android.content.Context
 import android.graphics.Color
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,14 +12,13 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.example.astonproject.R
 import com.example.astonproject.app.App
-import com.example.astonproject.app.CustomizeAppBarTitle
-import com.example.astonproject.app.Navigator
 import com.example.astonproject.app.di.ViewModelFactory
+import com.example.astonproject.app.utils.CustomizeAppBarTitle
+import com.example.astonproject.app.utils.ErrorFragment
+import com.example.astonproject.app.utils.Navigator
 import com.example.astonproject.databinding.FragmentEpisodesBinding
 import com.example.astonproject.episode.domain.model.EpisodeFilter
 import com.example.astonproject.episode.presentation.detail.EpisodeDetailFragment
@@ -28,6 +26,8 @@ import com.example.astonproject.episode.presentation.episode.adapter.EpisodeAdap
 import com.example.astonproject.episode.presentation.filter.EpisodeFilterFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 class EpisodeFragment : Fragment(), CustomizeAppBarTitle {
@@ -35,6 +35,7 @@ class EpisodeFragment : Fragment(), CustomizeAppBarTitle {
     private lateinit var binding: FragmentEpisodesBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: EpisodeViewModel
+    private lateinit var navigator: Navigator
     private val episodeAdapter by lazy {
         EpisodeAdapter()
     }
@@ -57,6 +58,7 @@ class EpisodeFragment : Fragment(), CustomizeAppBarTitle {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setFragmentResultListener("requestKey") { _, bundle ->
+            @Suppress("DEPRECATION")
             filter = bundle.getParcelable("filter")!!
         }
     }
@@ -72,31 +74,20 @@ class EpisodeFragment : Fragment(), CustomizeAppBarTitle {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val navigator = requireActivity() as Navigator
+        navigator = requireActivity() as Navigator
         binding.filterButton.setColorFilter(Color.WHITE)
         initRecyclerView()
-        loadContent()
+        loadEpisode()
         swipeRefresh()
         addListeners(navigator)
     }
 
-    private fun loadContent() {
-        if (hasConnected(requireContext())) {
-            errorConnectivity(true)
-            loadCharacters()
-        } else {
-            errorConnectivity(false)
-        }
-    }
 
     private fun addListeners(navigator: Navigator) {
         binding.filterButton.setOnClickListener {
             navigator.replaceFragment(
                 EpisodeFilterFragment.newInstance(filter)
             )
-        }
-        binding.errorBtn.setOnClickListener {
-            loadContent()
         }
 
         episodeAdapter.onCharacterClickListener = {
@@ -110,58 +101,15 @@ class EpisodeFragment : Fragment(), CustomizeAppBarTitle {
 
     private fun swipeRefresh() {
         binding.swipeRefresh.setOnRefreshListener {
-            lifecycleScope.launch {
-                episodeAdapter.submitData(PagingData.empty())
-                viewModel.episodeFlow.collectLatest(episodeAdapter::submitData)
-            }
+            loadEpisode()
             binding.swipeRefresh.isRefreshing = false
         }
     }
 
-    private fun loadCharacters() {
+    private fun loadEpisode() {
         lifecycleScope.launch {
             viewModel.load(filter.name, filter.episode)
             viewModel.episodeFlow.collectLatest(episodeAdapter::submitData)
-        }
-        lifecycleScope.launch {
-            viewModel.loadCount(filter.name, filter.episode)
-            viewModel.episodeCount.observe(viewLifecycleOwner) {
-                if (it.count == 0) {
-                    errorVisibility(true)
-                } else {
-                    errorVisibility(false)
-                }
-            }
-        }
-    }
-
-    private fun errorVisibility(boolean: Boolean) {
-        if (boolean) {
-            binding.episodesRecyclerView.visibility = View.GONE
-            binding.errorImage.visibility = View.VISIBLE
-            binding.errorText.visibility = View.VISIBLE
-        } else {
-            binding.errorImage.visibility = View.GONE
-            binding.errorText.visibility = View.GONE
-            binding.episodesRecyclerView.visibility = View.VISIBLE
-        }
-    }
-
-    private fun errorConnectivity(boolean: Boolean) {
-        if (boolean) {
-            binding.episodesRecyclerView.visibility = View.VISIBLE
-            binding.errorImage.visibility = View.GONE
-            binding.errorText.visibility = View.GONE
-            binding.errorBtn.visibility = View.GONE
-            binding.filterButton.visibility = View.VISIBLE
-            binding.errorText.text = getString(R.string.error_text)
-        } else {
-            binding.episodesRecyclerView.visibility = View.GONE
-            binding.errorImage.visibility = View.VISIBLE
-            binding.errorText.visibility = View.VISIBLE
-            binding.errorBtn.visibility = View.VISIBLE
-            binding.filterButton.visibility = View.GONE
-            binding.errorText.text = getString(R.string.notConnected)
         }
     }
 
@@ -183,16 +131,17 @@ class EpisodeFragment : Fragment(), CustomizeAppBarTitle {
             )
         }
         episodeAdapter.addLoadStateListener {
-            binding.episodesRecyclerView.isVisible = it.refresh != LoadState.Loading
             binding.progressBar.isVisible = it.refresh == LoadState.Loading
+            val errorState = when {
+                it.prepend is LoadState.Error -> it.prepend as LoadState.Error
+                it.refresh is LoadState.Error -> it.refresh as LoadState.Error
+                else -> null
+            }
+            when (errorState?.error) {
+                is IOException -> navigator.replaceFragment(ErrorFragment.newInstance(TAG))
+                is HttpException -> navigator.replaceFragment(ErrorFragment.newInstance(TAG))
+            }
         }
-    }
-
-    @Suppress("DEPRECATION")
-    private fun hasConnected(context: Context): Boolean {
-        val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = manager.activeNetworkInfo
-        return networkInfo != null && networkInfo.isConnected
     }
 
     companion object {

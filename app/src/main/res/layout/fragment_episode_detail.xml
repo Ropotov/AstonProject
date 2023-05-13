@@ -31,9 +31,9 @@
             android:id="@+id/tvEpisodeAirDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_margin="@dimen/margin_8"
-            android:textColor="@color/teal_700"
+            android:gravity="center"
+            android:textColor="#00796B"
             android:textSize="16sp"
             tools:text="Human" />
 
@@ -41,9 +41,9 @@
             android:id="@+id/tvEpisodeCreated"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_margin="@dimen/margin_8"
-            android:textColor="@color/teal_700"
+            android:gravity="center"
+            android:textColor="#00796B"
             android:textSize="16sp"
             tools:text="Male" />
 
@@ -51,9 +51,9 @@
             android:id="@+id/tvEpisode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_margin="@dimen/margin_8"
-            android:textColor="@color/teal_700"
+            android:gravity="center"
+            android:textColor="#00796B"
             android:textSize="16sp"
             tools:text="Alive" />
 
@@ -78,7 +78,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/baseline_expand_less_12" />
+                android:src="@drawable/baseline_expand_less_12"
+                android:contentDescription="@string/less" />
 
             <TextView
                 android:id="@+id/tvCharactersTitle"
@@ -94,9 +95,10 @@
                 android:id="@+id/rvEpisodes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_8"
+                android:layout_marginTop="@dimen/margin_8"
                 android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
                 tools:listitem="@layout/character_episode_item" />
 
         </LinearLayout>

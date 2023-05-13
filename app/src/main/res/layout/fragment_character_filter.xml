@@ -128,6 +128,92 @@
 
     </com.google.android.material.chip.ChipGroup>
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvSpecies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_8"
+        android:text="@string/species2"
+        android:textColor="@color/teal_700"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genderButton" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/speciesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSpecies"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/human"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/human" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/alien"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/alien" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/humanoid"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/humanoid" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/robot"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/robot" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/unknown_hero"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/unknown" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/poopybutthole"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/poopybutthole" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/Mythological"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mythological" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/Animal"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/animal" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/Disease"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/disease" />
+
+    </com.google.android.material.chip.ChipGroup>
+
     <Button
         android:id="@+id/save"
         android:layout_width="match_parent"

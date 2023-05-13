@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import com.example.astonproject.app.App
-import com.example.astonproject.app.CustomizeAppBarTitle
-import com.example.astonproject.app.Navigator
+import com.example.astonproject.app.utils.CustomizeAppBarTitle
+import com.example.astonproject.app.utils.Navigator
 import com.example.astonproject.character.domain.model.CharacterFilter
 import com.example.astonproject.databinding.FragmentCharacterFilterBinding
 
@@ -35,6 +35,7 @@ class CharacterFilterFragment : Fragment(), CustomizeAppBarTitle {
         return binding.root
     }
 
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         filter = arguments?.getParcelable("filter")
@@ -58,10 +59,23 @@ class CharacterFilterFragment : Fragment(), CustomizeAppBarTitle {
             "unknown" -> binding.unknownGender.isChecked = true
         }
 
+        when (filter?.species) {
+            "Human" -> binding.human.isChecked = true
+            "Alien" -> binding.alien.isChecked = true
+            "Humanoid" -> binding.humanoid.isChecked = true
+            "Robot" -> binding.robot.isChecked = true
+            "unknown" -> binding.unknownHero.isChecked = true
+            "Poopybutthole" -> binding.poopybutthole.isChecked = true
+            "Mythological" -> binding.Mythological.isChecked = true
+            "Animal" -> binding.Animal.isChecked = true
+            "Disease" -> binding.Disease.isChecked = true
+        }
+
         binding.save.setOnClickListener {
             filter?.name = EMPTY_STRING
             filter?.status = EMPTY_STRING
             filter?.gender = EMPTY_STRING
+            filter?.species = EMPTY_STRING
             filter?.name = binding.search.text.toString()
             if (binding.alive.isChecked) filter?.status = "Alive"
             if (binding.dead.isChecked) filter?.status = "Dead"
@@ -70,6 +84,15 @@ class CharacterFilterFragment : Fragment(), CustomizeAppBarTitle {
             if (binding.female.isChecked) filter?.gender = "Female"
             if (binding.unknownGender.isChecked) filter?.gender = "unknown"
             if (binding.genderless.isChecked) filter?.gender = "Genderless"
+            if (binding.human.isChecked) filter?.species = "Human"
+            if (binding.alien.isChecked) filter?.species = "Alien"
+            if (binding.humanoid.isChecked) filter?.species = "Humanoid"
+            if (binding.robot.isChecked) filter?.species = "Robot"
+            if (binding.unknownHero.isChecked) filter?.species = "unknown"
+            if (binding.poopybutthole.isChecked) filter?.species = "Poopybutthole"
+            if (binding.Mythological.isChecked) filter?.species = "Mythological"
+            if (binding.Animal.isChecked) filter?.species = "Animal"
+            if (binding.Disease.isChecked) filter?.species = "Disease"
 
             setFragmentResult(
                 "requestKey", Bundle().apply {

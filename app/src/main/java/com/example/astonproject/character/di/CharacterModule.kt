@@ -1,11 +1,12 @@
 package com.example.astonproject.character.di
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import com.example.astonproject.app.di.ViewModelKey
+import com.example.astonproject.character.data.db.CharacterDataBase
+import com.example.astonproject.character.data.db.dao.CharacterDao
 import com.example.astonproject.character.data.network.CharacterApiService
 import com.example.astonproject.character.data.network.CharacterApiService.Companion.CharacterRetrofit
-import com.example.astonproject.character.data.network.CharacterApiServiceRX
-import com.example.astonproject.character.data.network.CharacterApiServiceRX.Companion.CharacterRetrofitRX
 import com.example.astonproject.character.data.repository.CharacterRepositoryImpl
 import com.example.astonproject.character.domain.repository.CharacterRepository
 import com.example.astonproject.character.presentation.character.CharacterViewModel
@@ -38,8 +39,8 @@ interface CharacterModule {
         }
 
         @Provides
-        fun provideApiServiceRX(): CharacterApiServiceRX {
-            return CharacterRetrofitRX.characterApiServiceRX
+        fun provideCharacterDao(application: Application): CharacterDao {
+            return CharacterDataBase.getMainDatabase(application).characterDao()
         }
     }
 }

@@ -1,11 +1,16 @@
 package com.example.astonproject.location.data.network
 
+import com.example.astonproject.character.domain.model.CharacterResult
 import com.example.astonproject.location.data.model.LocationDto
+import com.example.astonproject.location.data.model.LocationResultDto
+import io.reactivex.Single
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface LocationApiService {
@@ -17,6 +22,12 @@ interface LocationApiService {
         @Query("type") type: String,
         @Query("dimension") dimension: String
     ): LocationDto
+
+    @GET("location/{id}")
+    fun getDetailLocation(@Path("id") id: Int): Single<LocationResultDto>
+
+    @GET("character/{id}")
+    fun getListCharacter(@Path("id") id: String): Single<List<CharacterResult>>
 
     companion object {
         object LocationRetrofit {
@@ -34,6 +45,7 @@ interface LocationApiService {
                     .client(okHttpClient)
                     .baseUrl(URL)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build()
             }
             val locationApi: LocationApiService by lazy {

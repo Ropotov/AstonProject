@@ -7,6 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class CharacterFilter(
     var name: String,
     var gender:String,
-    val species: String,
+    var species: String,
     var status: String
 ): Parcelable

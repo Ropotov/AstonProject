@@ -9,8 +9,8 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import com.example.astonproject.app.App
-import com.example.astonproject.app.CustomizeAppBarTitle
-import com.example.astonproject.app.Navigator
+import com.example.astonproject.app.utils.CustomizeAppBarTitle
+import com.example.astonproject.app.utils.Navigator
 import com.example.astonproject.databinding.FragmentLocationFilterBinding
 import com.example.astonproject.location.domain.model.LocationFilter
 
@@ -38,6 +38,7 @@ class LocationFilterFragment : Fragment(), CustomizeAppBarTitle {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        @Suppress("DEPRECATION")
         filter = arguments?.getParcelable("filter")
     }
 

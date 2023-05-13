@@ -35,10 +35,23 @@
     <string name="replacementDimension">Replacement Dimension</string>
     <string name="dimensionC137">Dimension C-137</string>
     <string name="episodes_title">Episodes:</string>
-    <string name="error_text">Oops! An error has occurred, try to select other filter options.</string>
+    <string name="error_text">Oops! There is no data, check your internet connection or filter settings.</string>
     <string name="learn_more">Learn more</string>
     <string name="notConnected">Oops, there seems to be no internet connection. Check your connection and try again.</string>
     <string name="error">error</string>
     <string name="retry">Retry</string>
     <string name="avatar">avatar</string>
+    <string name="open_filter">Open Filter</string>
+    <string name="exit">Exit</string>
+    <string name="back">Back</string>
+    <string name="human">Human</string>
+    <string name="alien">Alien</string>
+    <string name="humanoid">Humanoid</string>
+    <string name="robot">Robot</string>
+    <string name="mythological">Mythological</string>
+    <string name="poopybutthole">Poopybutthole</string>
+    <string name="animal">Animal</string>
+    <string name="disease">Disease</string>
+    <string name="species2">Species:</string>
+    <string name="less">less</string>
 </resources>

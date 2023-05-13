@@ -39,14 +39,14 @@
     <TextView
         android:id="@+id/tvEpisodeDataAir"
         android:layout_width="match_parent"
-        android:layout_margin="@dimen/margin_4"
-        android:textSize="16sp"
         android:layout_height="wrap_content"
-        android:textColor="@color/teal_700"
+        android:layout_margin="@dimen/margin_4"
+        android:textColor="#00796B"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvEpisodeName"
         app:layout_constraintTop_toBottomOf="@+id/tvEpisodeName"
-        app:layout_constraintBottom_toBottomOf="parent"
         tools:text="Human" />
 
 

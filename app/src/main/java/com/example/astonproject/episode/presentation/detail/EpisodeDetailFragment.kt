@@ -12,8 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.astonproject.app.App
-import com.example.astonproject.app.CustomizeAppBarTitle
-import com.example.astonproject.app.Navigator
+import com.example.astonproject.app.utils.CustomizeAppBarTitle
+import com.example.astonproject.app.utils.Navigator
 import com.example.astonproject.app.di.ViewModelFactory
 import com.example.astonproject.character.presentation.detail.CharacterDetailFragment
 import com.example.astonproject.databinding.FragmentEpisodeDetailBinding
@@ -33,7 +33,7 @@ class EpisodeDetailFragment : Fragment(), CustomizeAppBarTitle {
         (requireActivity().application as App).component
     }
 
-    private val adapter by lazy {
+    private val episodeAdapter by lazy {
         EpisodeDetailAdapter()
     }
 
@@ -67,8 +67,10 @@ class EpisodeDetailFragment : Fragment(), CustomizeAppBarTitle {
     }
 
     private fun addClickListener() {
-        adapter.onCharacterClickListener = {
-            navigator.replaceFragment(CharacterDetailFragment.newInstance(it?.id!!))
+        episodeAdapter.onCharacterClickListener = {
+            navigator.replaceFragment(
+                CharacterDetailFragment.newInstance(it?.id!!)
+            )
         }
     }
 
@@ -79,20 +81,29 @@ class EpisodeDetailFragment : Fragment(), CustomizeAppBarTitle {
             toListStringNumber(it.characters)
             viewModel.loadListCharacter(characters)
             viewModel.listCharacters.observe(viewLifecycleOwner) { list ->
-                adapter.submitList(list)
+                episodeAdapter.submitList(list)
             }
         }
     }
 
     private fun rvInit() {
         recyclerView = binding.rvEpisodes
-        recyclerView.adapter = adapter
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                binding.rvEpisodes.context,
-                DividerItemDecoration.VERTICAL
+
+        recyclerView.apply {
+            adapter = episodeAdapter
+            addItemDecoration(
+                DividerItemDecoration(
+                    binding.rvEpisodes.context,
+                    DividerItemDecoration.VERTICAL
+                )
             )
-        )
+            addItemDecoration(
+                DividerItemDecoration(
+                    binding.rvEpisodes.context,
+                    DividerItemDecoration.HORIZONTAL
+                )
+            )
+        }
     }
 
     @SuppressLint("SetTextI18n")

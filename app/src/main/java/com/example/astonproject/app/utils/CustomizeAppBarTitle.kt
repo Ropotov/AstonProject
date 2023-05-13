@@ -1,4 +1,4 @@
-package com.example.astonproject.app
+package com.example.astonproject.app.utils
 
 interface CustomizeAppBarTitle {
 

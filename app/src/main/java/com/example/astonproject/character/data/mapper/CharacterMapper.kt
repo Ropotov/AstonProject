@@ -1,5 +1,6 @@
 package com.example.astonproject.character.data.mapper
 
+import com.example.astonproject.character.data.db.model.CharacterResultDB
 import com.example.astonproject.character.data.model.character.*
 import com.example.astonproject.character.domain.model.*
 import javax.inject.Inject
@@ -33,8 +34,44 @@ class CharacterMapper @Inject constructor() {
         url = resultDto?.url ?: EMPTY_STRING
     )
 
+    private fun mapResultsDtoToResultsDb(resultDto: CharacterResultDto?) = CharacterResultDB(
+        created = resultDto?.created ?: EMPTY_STRING,
+        location = resultDto?.location?.name.toString(),
+        gender = resultDto?.gender ?: EMPTY_STRING,
+        id = resultDto?.id ?: EMPTY_NUMBER,
+        image = resultDto?.image ?: EMPTY_STRING,
+        name = resultDto?.name ?: EMPTY_STRING,
+        species = resultDto?.species ?: EMPTY_STRING,
+        status = resultDto?.status ?: EMPTY_STRING,
+        type = resultDto?.type ?: EMPTY_STRING,
+        url = resultDto?.url ?: EMPTY_STRING
+
+    )
+
+    private fun mapResultsDbToResults(resultDB: CharacterResultDB) = CharacterResult(
+        created = resultDB.created,
+        location = CharacterLocation(resultDB.name, ""),
+        gender = resultDB.gender,
+        id = resultDB.id,
+        image = resultDB.image,
+        name = resultDB.name,
+        species = resultDB.species,
+        status = resultDB.status,
+        type = resultDB.type,
+        url = resultDB.url,
+        episode = emptyList()
+    )
+
     private fun mapListResultsDtoToListResults(list: List<CharacterResultDto>) = list.map {
         mapResultsDtoToResults(it)
+    }
+
+    fun mapListResultsDtoToListResultsDdb(list: List<CharacterResultDto>) = list.map {
+        mapResultsDtoToResultsDb(it)
+    }
+
+    fun mapListResultsDbToListResults(list: List<CharacterResultDB>) = list.map {
+        mapResultsDbToResults(it)
     }
 
     fun mapCharacterDtoToCharacter(characterDto: CharacterDto) = Character(
