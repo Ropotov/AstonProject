@@ -62,3 +62,7 @@ https://rickandmortyapi.com/documentation/#get-a-single-episode
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/588d43f2-0e25-47bd-8436-2ab1881074fa" width="200" height="400">
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/4573f571-46d6-4d8a-8a20-6558f1d29e83" width="200" height="400">
 
+
+В ToolBar отображается название текущего экранаю На экранах детальной информации и фильтров также отображается кнопка назад.
+
+<img src="https://github.com/Ropotov/AstonProject/assets/87120543/f5bddc37-2c14-42e9-870e-48ed119d9220" width="800" height="100">
