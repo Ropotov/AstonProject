@@ -18,6 +18,9 @@ API https://rickandmortyapi.com/
 
 ## Информация
 
+При запуске приложения запускается Splash Screen.
+<img src="https://github.com/Ropotov/AstonProject/assets/87120543/635ba9fa-b641-4abe-9f6e-3b267338a639" width="200" height="400">
+
 Приложения отображает списки персонажей, локаций и эпизодов мультсериала Rick and Morty.
 
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/1d2c7971-50e7-4226-aa65-41d4174ec75a" width="200" height="400">
