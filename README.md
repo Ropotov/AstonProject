@@ -24,11 +24,15 @@ API https://rickandmortyapi.com/
 
 
 После загрузки данных отображает списки персонажей, локаций и эпизодов мультсериала Rick and Morty.
+
 Дынные получены с помощью запросов:
 
 https://rickandmortyapi.com/documentation/#get-all-characters
+
 https://rickandmortyapi.com/documentation/#get-all-episodes
+
 https://rickandmortyapi.com/documentation/#get-all-locations
+
 
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/1d2c7971-50e7-4226-aa65-41d4174ec75a" width="200" height="400">
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/bfb497c1-3f24-472c-ba30-c25a473878fb" width="200" height="400">
@@ -43,10 +47,13 @@ https://rickandmortyapi.com/documentation/#get-all-locations
 
 
 Ко клику на элемент списка персонажей, локаций или эпизодов открывается экран с детальной информацией.
+
 Данные получены по запросам:
 
 https://rickandmortyapi.com/documentation/#get-a-single-character
+
 https://rickandmortyapi.com/documentation/#get-a-single-location
+
 https://rickandmortyapi.com/documentation/#get-a-single-episode
 
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/0833cbb2-67b7-4a02-825e-759bc379c65b" width="200" height="400">
