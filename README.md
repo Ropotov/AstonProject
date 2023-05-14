@@ -91,13 +91,14 @@ API https://rickandmortyapi.com/
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/606c5918-5058-4895-9ded-cee2925c38d0" width="200" height="400">
 
 На экранах детальных данных дополнительно реализован выдвигающий список, в котором отображается списки персонажей или эпизозов.
-
+При нажатии на элемент списка открывается экран с соответвующей детальной информацией.
 
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/6ee0ea9c-ff2e-47e3-8822-a9c6860fd37b" width="200" height="400">
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/82ce052f-e3e0-49a0-8308-8c778b8ec16a" width="200" height="400">
-<img src="https://github.com/Ropotov/AstonProject/assets/87120543/1ac763a7-618a-4f0a-9e57-3a5cbf6aaf54" width="200" height="400">
+<img src="https://github.com/Ropotov/AstonProject/assets/87120543/65b7ec85-a9d5-452b-82d7-cca2a5cd12cb" width="200" height="400">
 
 На экране детальных данных персонажа, при нажалии кнопки "Learn more" можно перейти на экран детальных данных соответвующей локации.
+
 Если локация не определена (unknown) кнопка отображаться не будет.
 
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/c162747a-3bf5-47c5-bb37-47bcc639ad84" width="400" height="100">
