@@ -107,5 +107,5 @@ API https://rickandmortyapi.com/
 При возникновении ошибок иннтернет соединения или фитрации списка отображается фраграмент с ошибкой.
 На фрагмент 2 кнопки. Back возвращает назад по backStack, Exit закрывает приложение.
 
-<img src="https://github.com/Ropotov/AstonProject/assets/87120543/bc284b45-3494-45ec-ae92-64de739d6927" width="400" height="100">
+<img src="https://github.com/Ropotov/AstonProject/assets/87120543/bc284b45-3494-45ec-ae92-64de739d6927" width="200" height="400">
 
