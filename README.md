@@ -19,13 +19,18 @@ API https://rickandmortyapi.com/
 ## Информация
 
 При запуске приложения запускается Splash Screen.
+
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/635ba9fa-b641-4abe-9f6e-3b267338a639" width="200" height="400">
 
-Приложения отображает списки персонажей, локаций и эпизодов мультсериала Rick and Morty.
+После загрузки даннын отображает списки персонажей, локаций и эпизодов мультсериала Rick and Morty.
 
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/1d2c7971-50e7-4226-aa65-41d4174ec75a" width="200" height="400">
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/bfb497c1-3f24-472c-ba30-c25a473878fb" width="200" height="400">
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/88a2a24f-be23-4713-aa28-388474ac2bda" width="200" height="400">
+
+Навигация по приложению осуществляеться с помощью BottomNavigation, который имеет 3 вкладки.
+
+<img src="https://github.com/Ropotov/AstonProject/assets/87120543/766aca76-50c3-4aad-8459-250c5a57a613" width="600" height="200">
 
 У каждого отдельного персонажа, локации и эпизода есть экран с детальной информацией, 
 
