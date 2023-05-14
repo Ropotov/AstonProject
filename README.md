@@ -100,8 +100,8 @@ API https://rickandmortyapi.com/
 На экране детальных данных персонажа, при нажалии кнопки "Learn more" можно перейти на экран детальных данных соответвующей локации.
 Если локация не определена (unknown) кнопка отображаться не будет.
 
-<img src="https://github.com/Ropotov/AstonProject/assets/87120543/c162747a-3bf5-47c5-bb37-47bcc639ad84" width="200" height="100">
-<img src="https://github.com/Ropotov/AstonProject/assets/87120543/17639bfa-8452-4042-84ac-997d5d2364b3" width="200" height="100">
+<img src="https://github.com/Ropotov/AstonProject/assets/87120543/c162747a-3bf5-47c5-bb37-47bcc639ad84" width="400" height="100">
+<img src="https://github.com/Ropotov/AstonProject/assets/87120543/17639bfa-8452-4042-84ac-997d5d2364b3" width="400" height="100">
 
 
 
