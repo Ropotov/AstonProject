@@ -41,9 +41,11 @@ https://rickandmortyapi.com/documentation/#get-all-locations
 Все списки поддерживают пагинацию, реализованну с помощью библиотеки Paging3.
 
 
+
 Навигация по приложению осуществляеться с помощью BottomNavigation, который имеет 3 вкладки.
 
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/766aca76-50c3-4aad-8459-250c5a57a613" width="800" height="100">
+
 
 
 Ко клику на элемент списка персонажей, локаций или эпизодов открывается экран с детальной информацией.
