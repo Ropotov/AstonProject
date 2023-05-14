@@ -15,7 +15,7 @@ class CharacterMapper @Inject constructor() {
         prev = infoDto?.prev ?: EMPTY_STRING,
     )
 
-    private fun mapLocationDtoToLocation(locationDto: CharacterLocationDto?) = CharacterLocation(
+    fun mapLocationDtoToLocation(locationDto: CharacterLocationDto?) = CharacterLocation(
         name = locationDto?.name ?: EMPTY_STRING,
         url = locationDto?.url ?: EMPTY_STRING
     )
@@ -48,7 +48,7 @@ class CharacterMapper @Inject constructor() {
 
     )
 
-    fun mapResultsDbToResults(resultDB: CharacterResultDB) = CharacterResult(
+    private fun mapResultsDbToResults(resultDB: CharacterResultDB) = CharacterResult(
         created = resultDB.created,
         location = CharacterLocation(resultDB.name, ""),
         gender = resultDB.gender,

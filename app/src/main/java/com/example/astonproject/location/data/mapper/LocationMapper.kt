@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class LocationMapper @Inject constructor() {
 
-    private fun mapInfoDtoToInfo(infoDto: LocationInfoDto?) = LocationInfo(
+    fun mapInfoDtoToInfo(infoDto: LocationInfoDto?) = LocationInfo(
         count = infoDto?.count ?: EMPTY_NUMBER,
         next = infoDto?.next ?: EMPTY_STRING,
         pages = infoDto?.pages ?: EMPTY_NUMBER,

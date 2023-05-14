@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class EpisodeMapper @Inject constructor(){
 
-    private fun mapInfoDtoToInfo(infoDto: EpisodeInfoDto?) = EpisodeInfo(
+    fun mapInfoDtoToInfo(infoDto: EpisodeInfoDto?) = EpisodeInfo(
         count = infoDto?.count ?: EMPTY_NUMBER,
         next = infoDto?.next ?: EMPTY_STRING,
         pages = infoDto?.pages ?: EMPTY_NUMBER,
