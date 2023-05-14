@@ -83,9 +83,10 @@ API https://rickandmortyapi.com/
 
 - https://rickandmortyapi.com/documentation/#filter-episodes
 
+<img src="https://github.com/Ropotov/AstonProject/assets/87120543/aac1f558-ac14-4e23-b7ec-9d2f5e92944e" width="200" height="400">
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/869d5074-2826-4454-b501-ea9c6e9bce92" width="200" height="400">
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/606c5918-5058-4895-9ded-cee2925c38d0" width="200" height="400">
-<img src="https://github.com/Ropotov/AstonProject/assets/87120543/aac1f558-ac14-4e23-b7ec-9d2f5e92944e" width="200" height="400">
+
 
 
 
