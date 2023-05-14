@@ -20,7 +20,7 @@ API https://rickandmortyapi.com/
 
 Приложения отображает списки персонажей, локаций и эпизодов мультсериала Rick and Morty.
 
-![Screenshot_2023-05-13-21-08-11-779_com example astonproject](https://github.com/Ropotov/AstonProject/assets/87120543/1d2c7971-50e7-4226-aa65-41d4174ec75a width="200" height="400)
+![Screenshot_2023-05-13-21-08-11-779_com example astonproject](screenshot =200x400)(https://github.com/Ropotov/AstonProject/assets/87120543/1d2c7971-50e7-4226-aa65-41d4174ec75a)
 ![Screenshot_2023-05-13-21-08-19-404_com example astonproject](https://github.com/Ropotov/AstonProject/assets/87120543/bfb497c1-3f24-472c-ba30-c25a473878fb)
 ![Screenshot_2023-05-13-21-08-27-505_com example astonproject](https://github.com/Ropotov/AstonProject/assets/87120543/691f4dc8-7938-4ee7-9d56-efe97cea2d11)
 
