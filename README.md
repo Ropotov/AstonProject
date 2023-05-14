@@ -38,7 +38,8 @@ https://rickandmortyapi.com/documentation/#get-all-locations
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/bfb497c1-3f24-472c-ba30-c25a473878fb" width="200" height="400">
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/88a2a24f-be23-4713-aa28-388474ac2bda" width="200" height="400">
 
-Все списки поддерживают пагинацию, реализованну с помощью библиотеки Paging3.
+Все списки поддерживают пагинацию, реализованну с помощью библиотеки Paging3. 
+Дынные полученные из сети сохраняются в базу данных Room, для доступа к ним без интернета.
 
 
 
