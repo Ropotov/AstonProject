@@ -2,6 +2,8 @@ package com.example.astonproject.location.presentation.detail;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,14 +90,22 @@ public class LocationDetailFragment extends Fragment implements CustomizeAppBarT
     }
 
     private void loadContent() {
-        viewModel.load(id);
-        viewModel.locationDetail.observe(getViewLifecycleOwner(), locationResult -> {
-            content(locationResult);
-            toListStringNumber(locationResult.getResidents());
-            viewModel.loadListCharacter(characters);
-            viewModel.listCharacters.observe(getViewLifecycleOwner(), characterResults ->
-                    adapter.submitList(characterResults));
-        });
+        if (hasConnection(requireContext())){
+            viewModel.load(id);
+            viewModel.locationDetail.observe(getViewLifecycleOwner(), locationResult -> {
+                content(locationResult);
+                toListStringNumber(locationResult.getResidents());
+                viewModel.loadListCharacter(characters);
+                viewModel.listCharacters.observe(getViewLifecycleOwner(), characterResults ->
+                        adapter.submitList(characterResults));
+            });
+        }else {
+            viewModel.loadFromDb(id);
+            viewModel.locationDetail.observe(getViewLifecycleOwner(), locationResult -> {
+                content(locationResult);
+                binding.coordinator.setVisibility(View.GONE);
+            });
+        }
     }
 
     private void addClickListener() {
@@ -127,6 +137,13 @@ public class LocationDetailFragment extends Fragment implements CustomizeAppBarT
             String newString = i.substring(i.lastIndexOf('/') + 1);
             characters = characters.concat(newString + ",");
         }
+    }
+
+    private static boolean hasConnection(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     @NonNull

@@ -37,7 +37,7 @@ class LocationMapper @Inject constructor() {
         url = resultDto?.url ?: EMPTY_STRING
     )
 
-    private fun mapResultsDbToResults(resultDb: LocationResultDb) = LocationResult(
+    fun mapResultsDbToResults(resultDb: LocationResultDb) = LocationResult(
         created = resultDb.created,
         dimension = resultDb.dimension,
         id = resultDb.id,

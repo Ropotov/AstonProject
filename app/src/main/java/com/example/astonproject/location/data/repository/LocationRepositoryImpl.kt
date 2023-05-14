@@ -34,6 +34,10 @@ class LocationRepositoryImpl @Inject constructor(
         return apiService.getDetailLocation(id).map { mapper.mapResultsDtoToResults(it) }
     }
 
+    override fun getDetailLocationFromDb(id: Int): Single<LocationResult> {
+        return dao.getDetailLocationById(id).map { mapper.mapResultsDbToResults(it) }
+    }
+
     override fun getListCharacter(id: String): Single<List<CharacterResult>> {
         return apiService.getListCharacter(id)
     }

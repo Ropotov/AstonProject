@@ -12,6 +12,9 @@ interface EpisodeDao {
     @Query("SELECT * FROM episode")
     suspend fun getAllEpisode(): List<EpisodeResultDb>
 
+    @Query("SELECT * FROM episode WHERE id LIKE :id")
+    suspend fun getEpisodeById(id: Int): EpisodeResultDb
+
     @Query("DELETE FROM episode")
     suspend fun deleteAllEpisode()
 

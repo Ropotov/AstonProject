@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.astonproject.character.domain.model.CharacterDetail;
+import com.example.astonproject.character.domain.useCases.GetDetailCharacterFromDb;
 import com.example.astonproject.character.domain.useCases.GetDetailCharacterUseCase;
 import com.example.astonproject.character.domain.useCases.GetListDetailEpisodeUseCase;
 import com.example.astonproject.episode.domain.model.EpisodeResult;
@@ -22,16 +23,18 @@ public class CharacterDetailViewModel extends ViewModel {
 
     GetDetailCharacterUseCase detailCharacterUseCase;
     GetListDetailEpisodeUseCase listDetailEpisodeUseCase;
+    GetDetailCharacterFromDb getDetailCharacterFromDb;
 
     @Inject
     public CharacterDetailViewModel(GetDetailCharacterUseCase detailCharacterUseCase,
-                                    GetListDetailEpisodeUseCase listDetailEpisodeUseCase) {
+                                    GetListDetailEpisodeUseCase listDetailEpisodeUseCase,
+                                    GetDetailCharacterFromDb getDetailCharacterFromDb) {
         this.detailCharacterUseCase = detailCharacterUseCase;
         this.listDetailEpisodeUseCase = listDetailEpisodeUseCase;
+        this.getDetailCharacterFromDb = getDetailCharacterFromDb;
     }
 
     MutableLiveData<CharacterDetail> characterDetail = new MutableLiveData<>();
-
     MutableLiveData<List<EpisodeResult>> listEpisodeDetail = new MutableLiveData<>();
 
     void load(int id) {
@@ -49,6 +52,28 @@ public class CharacterDetailViewModel extends ViewModel {
 
                         }
                     });
+        } catch (Exception e) {
+            Log.d("TAG", e.getMessage());
+        }
+    }
+
+    void loadCharacterFromDb(int id) {
+        try {
+            getDetailCharacterFromDb.getDetailCharacterFromDb(id).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            new DisposableSingleObserver<CharacterDetail>() {
+                                @Override
+                                public void onSuccess(CharacterDetail result) {
+                                    characterDetail.setValue(result);
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+                            }
+                    );
         } catch (Exception e) {
             Log.d("TAG", e.getMessage());
         }
@@ -72,7 +97,6 @@ public class CharacterDetailViewModel extends ViewModel {
 
         } catch (Exception e) {
             Log.d("TAG", e.getMessage());
-
         }
     }
 }

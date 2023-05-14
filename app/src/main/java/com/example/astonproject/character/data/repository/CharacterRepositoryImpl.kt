@@ -36,6 +36,10 @@ class CharacterRepositoryImpl @Inject constructor(
             .map { characterMapper.mapDetailDtoToDetail(it) }
     }
 
+    override fun getDetailCharacterDb(id: Int):Single<CharacterDetail> {
+        return dao.getCharacterById(id).map { characterMapper.mapResultsDbToDetail(it)}
+    }
+
     override fun getDetailEpisodeList(string: String): Single<List<EpisodeResult>> {
         return episodeApiService.getDetailEpisodeList(string)
             .map { episodeMapper.mapListResultsDtoToListResults(it) }

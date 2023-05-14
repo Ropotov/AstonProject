@@ -29,6 +29,10 @@ class EpisodeRepositoryImpl @Inject constructor(
         return mapper.mapResultsDtoToResults(detailEpisode)
     }
 
+    override suspend fun getDetailEpisodeFromDb(id: Int): EpisodeResult {
+        return mapper.mapResultsDbToResults(dao.getEpisodeById(id))
+    }
+
     override suspend fun insertEpisode(list: List<EpisodeResultDto>) {
         dao.insertEpisode(mapper.mapListResultsDtoToListResultsDb(list))
     }

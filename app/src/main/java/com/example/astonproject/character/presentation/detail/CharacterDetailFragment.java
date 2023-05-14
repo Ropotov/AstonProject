@@ -2,6 +2,8 @@ package com.example.astonproject.character.presentation.detail;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.astonproject.R;
 import com.example.astonproject.app.App;
-import com.example.astonproject.app.utils.CustomizeAppBarTitle;
-import com.example.astonproject.app.utils.Navigator;
 import com.example.astonproject.app.di.AppComponent;
 import com.example.astonproject.app.di.ViewModelFactory;
+import com.example.astonproject.app.utils.CustomizeAppBarTitle;
+import com.example.astonproject.app.utils.Navigator;
 import com.example.astonproject.character.domain.model.CharacterDetail;
 import com.example.astonproject.character.presentation.detail.adapter.DetailAdapter;
 import com.example.astonproject.databinding.FragmentCharacterDetailBinding;
@@ -117,17 +119,30 @@ public class CharacterDetailFragment extends Fragment implements CustomizeAppBar
     }
 
     private void loadContent() {
-        viewModel.load(id);
-        viewModel.characterDetail.observe(getViewLifecycleOwner(), characterDetail -> {
-            detailCharacter = characterDetail;
-            content(characterDetail);
-            toListStringNumber(characterDetail.getEpisode());
-            viewModel.loadListEpisodes(episodes);
-            viewModel.listEpisodeDetail.observe(getViewLifecycleOwner(), episodeResults -> {
-                adapter.submitList(episodeResults);
-                addClickListeners();
+        if (hasConnection(requireContext())){
+            viewModel.load(id);
+            viewModel.characterDetail.observe(getViewLifecycleOwner(), characterDetail -> {
+                detailCharacter = characterDetail;
+                content(characterDetail);
+                toListStringNumber(characterDetail.getEpisode());
+                viewModel.loadListEpisodes(episodes);
+                viewModel.listEpisodeDetail.observe(getViewLifecycleOwner(), episodeResults -> {
+                    adapter.submitList(episodeResults);
+                    addClickListeners();
+                });
             });
-        });
+        } else {
+            viewModel.loadCharacterFromDb(id);
+            viewModel.characterDetail.observe(getViewLifecycleOwner(), characterDetail -> {
+                detailCharacter= characterDetail;
+                content(characterDetail);
+                binding.tvOriginLearnMore.setVisibility(View.GONE);
+                binding.tvCharacterOrigin.setVisibility(View.GONE);
+                binding.coordinator.setVisibility(View.GONE);
+
+            });
+        }
+
     }
 
     private void rvInit() {
@@ -158,6 +173,13 @@ public class CharacterDetailFragment extends Fragment implements CustomizeAppBar
             String newString = i.substring(i.lastIndexOf('/') + 1);
             episodes = episodes.concat(newString + ",");
         }
+    }
+
+    private static boolean hasConnection(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     @NonNull

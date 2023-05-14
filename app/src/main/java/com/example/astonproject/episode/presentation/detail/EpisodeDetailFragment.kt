@@ -2,6 +2,7 @@ package com.example.astonproject.episode.presentation.detail
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +13,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.astonproject.app.App
+import com.example.astonproject.app.di.ViewModelFactory
 import com.example.astonproject.app.utils.CustomizeAppBarTitle
 import com.example.astonproject.app.utils.Navigator
-import com.example.astonproject.app.di.ViewModelFactory
 import com.example.astonproject.character.presentation.detail.CharacterDetailFragment
 import com.example.astonproject.databinding.FragmentEpisodeDetailBinding
 import com.example.astonproject.episode.domain.model.EpisodeResult
@@ -75,15 +76,24 @@ class EpisodeDetailFragment : Fragment(), CustomizeAppBarTitle {
     }
 
     private fun loadContent() {
-        viewModel.load(id)
-        viewModel.episodeDetail.observe(viewLifecycleOwner) {
-            content(it)
-            toListStringNumber(it.characters)
-            viewModel.loadListCharacter(characters)
-            viewModel.listCharacters.observe(viewLifecycleOwner) { list ->
-                episodeAdapter.submitList(list)
+        if (hasConnected(requireContext())) {
+            viewModel.load(id)
+            viewModel.episodeDetail.observe(viewLifecycleOwner) {
+                content(it)
+                toListStringNumber(it.characters)
+                viewModel.loadListCharacter(characters)
+                viewModel.listCharacters.observe(viewLifecycleOwner) { list ->
+                    episodeAdapter.submitList(list)
+                }
+            }
+        } else {
+            viewModel.loadFromDb(id)
+            viewModel.episodeDetail.observe(viewLifecycleOwner) {
+                content(it)
+                binding.coordinator.visibility = View.GONE
             }
         }
+
     }
 
     private fun rvInit() {
@@ -124,6 +134,13 @@ class EpisodeDetailFragment : Fragment(), CustomizeAppBarTitle {
 
     override fun customTitle(): String {
         return TAG
+    }
+
+    @Suppress("DEPRECATION")
+    private fun hasConnected(context: Context): Boolean {
+        val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = manager.activeNetworkInfo
+        return network != null && network.isConnected
     }
 
     companion object {

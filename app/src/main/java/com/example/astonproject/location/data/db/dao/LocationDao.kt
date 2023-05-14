@@ -2,6 +2,7 @@ package com.example.astonproject.location.data.db.dao
 
 import androidx.room.*
 import com.example.astonproject.location.data.db.model.LocationResultDb
+import io.reactivex.Single
 
 @Dao
 interface LocationDao {
@@ -11,6 +12,9 @@ interface LocationDao {
 
     @Query("SELECT * FROM location")
     suspend fun getAllLocation(): List<LocationResultDb>
+
+    @Query("SELECT * FROM location WHERE id LIKE :id")
+    fun getDetailLocationById(id: Int): Single<LocationResultDb>
 
     @Query("DELETE FROM location")
     suspend fun deleteAllLocation()

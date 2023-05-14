@@ -2,6 +2,7 @@ package com.example.astonproject.character.data.db.dao
 
 import androidx.room.*
 import com.example.astonproject.character.data.db.model.CharacterResultDB
+import io.reactivex.Single
 
 @Dao
 interface CharacterDao {
@@ -11,6 +12,9 @@ interface CharacterDao {
 
     @Query("SELECT * FROM character")
     suspend fun getAllCharacters(): List<CharacterResultDB>
+
+    @Query("SELECT * FROM character WHERE id LIKE :id")
+    fun getCharacterById(id: Int): Single<CharacterResultDB>
 
     @Query("DELETE FROM character")
     suspend fun deleteAllCharacters()

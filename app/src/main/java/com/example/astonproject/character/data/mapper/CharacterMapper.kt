@@ -48,7 +48,7 @@ class CharacterMapper @Inject constructor() {
 
     )
 
-    private fun mapResultsDbToResults(resultDB: CharacterResultDB) = CharacterResult(
+    fun mapResultsDbToResults(resultDB: CharacterResultDB) = CharacterResult(
         created = resultDB.created,
         location = CharacterLocation(resultDB.name, ""),
         gender = resultDB.gender,
@@ -60,6 +60,20 @@ class CharacterMapper @Inject constructor() {
         type = resultDB.type,
         url = resultDB.url,
         episode = emptyList()
+    )
+    fun mapResultsDbToDetail(resultDB: CharacterResultDB) = CharacterDetail(
+        created = resultDB.created,
+        location = CharacterLocation(resultDB.name, ""),
+        gender = resultDB.gender,
+        id = resultDB.id,
+        image = resultDB.image,
+        name = resultDB.name,
+        species = resultDB.species,
+        status = resultDB.status,
+        type = resultDB.type,
+        url = resultDB.url,
+        episode = emptyList(),
+        origin = CharacterOrigin("","")
     )
 
     private fun mapListResultsDtoToListResults(list: List<CharacterResultDto>) = list.map {

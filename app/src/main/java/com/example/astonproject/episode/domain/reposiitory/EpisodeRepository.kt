@@ -9,6 +9,7 @@ import com.example.astonproject.episode.domain.model.EpisodeResult
 interface EpisodeRepository {
     suspend fun getEpisode(page: Int, name: String, episode: String): Episode
     suspend fun getDetailEpisode(id: Int): EpisodeResult
+    suspend fun getDetailEpisodeFromDb(id: Int): EpisodeResult
     suspend fun getEpisodeListInDb(): List<EpisodeResult>
     suspend fun getEpisodeListInDb(name: String, season: String): List<EpisodeResult>
     suspend fun insertEpisode(list: List<EpisodeResultDto>)

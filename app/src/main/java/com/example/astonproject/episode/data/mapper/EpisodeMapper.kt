@@ -37,7 +37,7 @@ class EpisodeMapper @Inject constructor(){
         url = resultDto?.url ?: EMPTY_STRING
     )
 
-    private fun mapResultsDbToResults(resultDb: EpisodeResultDb) = EpisodeResult(
+    fun mapResultsDbToResults(resultDb: EpisodeResultDb) = EpisodeResult(
         air_date = resultDb.air_date ,
         characters = emptyList(),
         created = resultDb.created ,

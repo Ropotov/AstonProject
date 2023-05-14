@@ -10,6 +10,7 @@ import io.reactivex.Single
 interface LocationRepository {
     suspend fun getLocation(page: Int, name: String, type: String, dimension: String): Location
     fun getDetailLocation(id: Int): Single<LocationResult>
+    fun getDetailLocationFromDb(id: Int): Single<LocationResult>
     fun getListCharacter(id: String): Single<List<CharacterResult>>
     suspend fun insertLocation(list: List<LocationResultDto>)
     suspend fun getLocationListInDb(): List<LocationResult>

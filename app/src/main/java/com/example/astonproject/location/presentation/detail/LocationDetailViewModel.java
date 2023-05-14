@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.astonproject.character.domain.model.CharacterResult;
 import com.example.astonproject.location.domain.model.LocationResult;
+import com.example.astonproject.location.domain.useCases.GetDetailLocationFromDbUseCase;
 import com.example.astonproject.location.domain.useCases.GetListCharactersUseCase;
 import com.example.astonproject.location.domain.useCases.GetLocationDetailUseCase;
 
@@ -20,16 +21,18 @@ public class LocationDetailViewModel extends ViewModel {
 
     GetLocationDetailUseCase getLocationDetailUseCase;
     GetListCharactersUseCase getListCharactersUseCase;
+    GetDetailLocationFromDbUseCase getDetailLocationFromDbUseCase;
 
     @Inject
     public LocationDetailViewModel(GetLocationDetailUseCase getLocationDetailUseCase,
-                                   GetListCharactersUseCase getListCharactersUseCase) {
+                                   GetListCharactersUseCase getListCharactersUseCase,
+                                   GetDetailLocationFromDbUseCase getDetailLocationFromDbUseCase) {
         this.getLocationDetailUseCase = getLocationDetailUseCase;
         this.getListCharactersUseCase = getListCharactersUseCase;
+        this.getDetailLocationFromDbUseCase = getDetailLocationFromDbUseCase;
     }
 
     MutableLiveData<LocationResult> locationDetail = new MutableLiveData<>();
-
     MutableLiveData<List<CharacterResult>> listCharacters = new MutableLiveData<>();
 
     void load(int id) {
@@ -47,6 +50,24 @@ public class LocationDetailViewModel extends ViewModel {
 
                     }
                 });
+    }
+
+    void loadFromDb(int id) {
+        getDetailLocationFromDbUseCase.getDetailLocationFromDb(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(
+                        new DisposableSingleObserver<LocationResult>() {
+                            @Override
+                            public void onSuccess(LocationResult locationResult) {
+                                locationDetail.setValue(locationResult);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+                        }
+                );
     }
 
     void loadListCharacter(String id) {
