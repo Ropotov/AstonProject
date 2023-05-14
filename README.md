@@ -30,7 +30,7 @@ API https://rickandmortyapi.com/
 
 Навигация по приложению осуществляеться с помощью BottomNavigation, который имеет 3 вкладки.
 
-<img src="https://github.com/Ropotov/AstonProject/assets/87120543/766aca76-50c3-4aad-8459-250c5a57a613" width="600" height="200">
+<img src="https://github.com/Ropotov/AstonProject/assets/87120543/766aca76-50c3-4aad-8459-250c5a57a613" width="800" height="200">
 
 У каждого отдельного персонажа, локации и эпизода есть экран с детальной информацией, 
 
