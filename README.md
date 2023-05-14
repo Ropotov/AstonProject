@@ -38,7 +38,7 @@ https://rickandmortyapi.com/documentation/#get-all-locations
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/bfb497c1-3f24-472c-ba30-c25a473878fb" width="200" height="400">
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/88a2a24f-be23-4713-aa28-388474ac2bda" width="200" height="400">
 
-Все списки поддерживают пагинацию, реализованну с помощью библиотеки Paging3. 
+Все списки поддерживают пагинацию, реализованную с помощью библиотеки Paging3. 
 Дынные полученные из сети сохраняются в базу данных Room, для доступа к ним без интернета.
 
 
@@ -67,3 +67,9 @@ https://rickandmortyapi.com/documentation/#get-a-single-episode
 В ToolBar отображается название текущего экранаю На экранах детальной информации и фильтров также отображается кнопка назад.
 
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/f5bddc37-2c14-42e9-870e-48ed119d9220" width="800" height="100">
+
+Каждый список имеет возможноть фильтрации и поиска по имени.
+Для запуска экрана фитрации необходимо нажать сооветсвующую кнопку.
+
+<img src="https://github.com/Ropotov/AstonProject/assets/87120543/fbfdb341-8e5b-4b98-8993-6b6c70e14ccb" width="100" height="100">
+
