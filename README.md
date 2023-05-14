@@ -78,7 +78,7 @@ API https://rickandmortyapi.com/
 
 После нажатия открывается фрагмент фильтрации и поиска.
 
-Все возможные способы применения фильтров можно обнаружитьтут:
+Все возможные способы применения фильтров можно обнаружить тут:
 
 - https://rickandmortyapi.com/documentation/#filter-characters
 
@@ -90,6 +90,12 @@ API https://rickandmortyapi.com/
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/869d5074-2826-4454-b501-ea9c6e9bce92" width="200" height="400">
 <img src="https://github.com/Ropotov/AstonProject/assets/87120543/606c5918-5058-4895-9ded-cee2925c38d0" width="200" height="400">
 
+На экранах детальных данных дополнительно реализован выдвигающий список, в котором отображается списки персонажей или эпизозов.
+
+
+<img src="https://github.com/Ropotov/AstonProject/assets/87120543/6ee0ea9c-ff2e-47e3-8822-a9c6860fd37b" width="200" height="400">
+<img src="https://github.com/Ropotov/AstonProject/assets/87120543/82ce052f-e3e0-49a0-8308-8c778b8ec16a" width="200" height="400">
+<img src="https://github.com/Ropotov/AstonProject/assets/87120543/1ac763a7-618a-4f0a-9e57-3a5cbf6aaf54" width="200" height="400">
 
 
 
